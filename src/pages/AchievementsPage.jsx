@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Trophy, Medal, Star, Calendar, User, School } from 'lucide-react';
+import { Search, Filter, Trophy, Medal, Star, Calendar, User, School, X, ZoomIn } from 'lucide-react';
 
 const achievements = [
   {
@@ -81,6 +81,8 @@ const AchievementsPage = () => {
   const [selectedYear, setSelectedYear] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedMedal, setSelectedMedal] = useState('All');
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const years = ['All', '2024', '2023', '2022'];
   const categories = ['All', 'Team Sports', 'Swimming', 'Athletics', 'Indoor Sports', 'Martial Arts'];
@@ -98,6 +100,37 @@ const AchievementsPage = () => {
 
     return matchesSearch && matchesYear && matchesCategory && matchesMedal;
   });
+
+  // Handle image click to open modal
+  const handleImageClick = (achievement) => {
+    setSelectedImage(achievement);
+    setIsModalOpen(true);
+  };
+
+  // Handle modal close
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
+  // Handle escape key to close modal
+  React.useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-16 md:py-20 px-4 sm:px-6 lg:px-8">
@@ -192,13 +225,26 @@ const AchievementsPage = () => {
               key={achievement.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300"
             >
-              <div className="h-40 md:h-48 overflow-hidden relative">
+              <div className="h-40 md:h-48 overflow-hidden relative cursor-pointer group" onClick={() => handleImageClick(achievement)}>
                 <img 
                   src={achievement.image} 
                   alt={achievement.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                
+                {/* Zoom icon overlay for mobile/touch devices */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+                  <div className="bg-white/90 rounded-full p-2 md:p-3">
+                    <ZoomIn className="h-4 w-4 md:h-6 md:w-6 text-gray-700" />
+                  </div>
+                </div>
+                
+                {/* Mobile tap indicator */}
+                <div className="absolute top-2 right-2 md:hidden bg-white/80 rounded-full p-1">
+                  <ZoomIn className="h-3 w-3 text-gray-700" />
+                </div>
+                
                 <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4 right-3 md:right-4">
                   <div className="flex items-center justify-between">
                     <span className="text-white font-semibold text-sm md:text-base">{achievement.year}</span>
@@ -243,6 +289,81 @@ const AchievementsPage = () => {
           </div>
         )}
       </div>
+
+      {/* Image Modal */}
+      {isModalOpen && selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={closeModal}
+        >
+          <div 
+            className="relative max-w-4xl max-h-[90vh] w-full bg-white rounded-xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors duration-200"
+            >
+              <X className="h-5 w-5 md:h-6 md:w-6" />
+            </button>
+
+            {/* Image container */}
+            <div className="relative">
+              <img
+                src={selectedImage.image}
+                alt={selectedImage.title}
+                className="w-full h-auto max-h-[60vh] object-contain"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              
+              {/* Image overlay info */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-lg md:text-xl font-semibold">{selectedImage.year}</span>
+                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                    selectedImage.medal === 'gold' ? 'bg-yellow-500 text-white' :
+                    selectedImage.medal === 'silver' ? 'bg-gray-300 text-gray-800' :
+                    'bg-orange-700 text-white'
+                  }`}>
+                    {selectedImage.position}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Achievement details */}
+            <div className="p-4 md:p-6">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{selectedImage.title}</h2>
+              <p className="text-gray-600 mb-4 text-sm md:text-base">{selectedImage.description}</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                <div className="flex items-center text-gray-600">
+                  <User className="h-4 w-4 md:h-5 md:w-5 mr-2 flex-shrink-0 text-indigo-500" />
+                  <div>
+                    <div className="text-xs text-gray-500">Student</div>
+                    <div className="text-sm md:text-base font-medium">{selectedImage.student}</div>
+                  </div>
+                </div>
+                <div className="flex items-center text-gray-600">
+                  <School className="h-4 w-4 md:h-5 md:w-5 mr-2 flex-shrink-0 text-indigo-500" />
+                  <div>
+                    <div className="text-xs text-gray-500">Department</div>
+                    <div className="text-sm md:text-base font-medium">{selectedImage.department}</div>
+                  </div>
+                </div>
+                <div className="flex items-center text-gray-600">
+                  <Trophy className="h-4 w-4 md:h-5 md:w-5 mr-2 flex-shrink-0 text-indigo-500" />
+                  <div>
+                    <div className="text-xs text-gray-500">Category</div>
+                    <div className="text-sm md:text-base font-medium">{selectedImage.category}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
