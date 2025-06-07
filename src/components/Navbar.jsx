@@ -29,14 +29,14 @@ const Navbar = () => {
   return (
     <nav className="bg-indigo-950 text-white fixed w-full z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 md:h-20">
           <Link to="/" className="flex items-center">
             <div className="relative">
-              <Trophy className="h-12 w-12 text-indigo-300" />
+              <Trophy className="h-8 w-8 md:h-12 md:w-12 text-indigo-300" />
             </div>
             <div className="flex flex-col ml-2">
-              <span className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-white">Sportalon</span>
-              <span className="text-xs font-medium text-indigo-300 tracking-wide">Connect, Compete, Conquer</span>
+              <span className="text-lg md:text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-white">Sportalon</span>
+              <span className="text-xs font-medium text-indigo-300 tracking-wide hidden sm:block">Connect, Compete, Conquer</span>
             </div>
           </Link>
 

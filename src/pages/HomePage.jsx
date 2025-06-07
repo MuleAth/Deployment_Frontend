@@ -115,13 +115,13 @@ const HomePage = () => {
       </AnimatePresence>
 
       {/* Navigation Dots */}
-      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40 hidden md:block">
-        <div className="flex flex-col space-y-4">
+      <div className="fixed right-3 md:right-6 top-1/2 transform -translate-y-1/2 z-40 hidden sm:block">
+        <div className="flex flex-col space-y-3 md:space-y-4">
           {Object.keys(sectionRefs).map((section) => (
             <button
               key={section}
               onClick={() => scrollToSection(section)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
                 activeSection === section
                   ? "bg-indigo-500 scale-150"
                   : "bg-gray-400 hover:bg-indigo-300"
@@ -141,10 +141,10 @@ const HomePage = () => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 p-3 bg-indigo-600 text-white rounded-full shadow-lg z-40 hover:bg-indigo-700 transition-colors"
+            className="fixed bottom-4 right-4 md:bottom-6 md:right-6 p-2.5 md:p-3 bg-indigo-600 text-white rounded-full shadow-lg z-40 hover:bg-indigo-700 transition-colors"
             aria-label="Scroll to top"
           >
-            <ArrowUp size={24} />
+            <ArrowUp size={20} className="md:w-6 md:h-6" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -153,7 +153,7 @@ const HomePage = () => {
 
       {/* Scroll indicator on hero section */}
       <motion.div
-        className="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-40"
+        className="fixed bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 z-40"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 0.5 }}
@@ -164,8 +164,8 @@ const HomePage = () => {
           transition={{ repeat: Infinity, duration: 1.5 }}
           className="flex flex-col items-center text-white"
         >
-          <span className="text-sm font-medium mb-2">Scroll to explore</span>
-          <ChevronDown size={24} />
+          <span className="text-xs md:text-sm font-medium mb-1 md:mb-2">Scroll to explore</span>
+          <ChevronDown size={20} className="md:w-6 md:h-6" />
         </motion.div>
       </motion.div>
 

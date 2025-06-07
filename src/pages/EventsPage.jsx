@@ -108,24 +108,24 @@ const EventsPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
       {/* Hero Section with Featured Event */}
       <div className="bg-gradient-to-r from-indigo-900 to-purple-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
             <div className="order-2 md:order-1">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4">
                   Discover Amazing Sports Events
                 </h1>
-                <p className="text-xl text-indigo-200 mb-8">
+                <p className="text-lg md:text-xl text-indigo-200 mb-6 md:mb-8">
                   Find and register for the best sporting events at Sinhgad College
                 </p>
 
                 {/* Search Bar */}
                 <div className={`relative transition-all duration-300 ${
-                  isSearchFocused ? "scale-105" : ""
+                  isSearchFocused ? "md:scale-105" : ""
                 }`}>
                   <input
                     type="text"
@@ -134,15 +134,15 @@ const EventsPage = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onFocus={() => setIsSearchFocused(true)}
                     onBlur={() => setIsSearchFocused(false)}
-                    className="w-full py-4 px-6 pl-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-indigo-200"
+                    className="w-full py-3 md:py-4 px-4 md:px-6 pl-10 md:pl-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white placeholder-indigo-200 text-sm md:text-base"
                   />
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-indigo-300" />
+                  <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-indigo-300 h-4 w-4 md:h-5 md:w-5" />
                   {searchTerm && (
                     <button
                       onClick={() => setSearchTerm("")}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-indigo-300 hover:text-white"
+                      className="absolute right-3 md:right-4 top-1/2 transform -translate-y-1/2 text-indigo-300 hover:text-white"
                     >
-                      <X size={18} />
+                      <X size={16} className="md:w-5 md:h-5" />
                     </button>
                   )}
                 </div>
@@ -161,19 +161,19 @@ const EventsPage = () => {
                   <img
                     src={featuredEvent.image}
                     alt={featuredEvent.title}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-48 md:h-64 object-cover"
                     onError={(e) => {
                       e.target.onerror = null; // Prevent infinite loop
                       e.target.src = "/default_img.jpeg";
                     }}
                   />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-20">
                     <div className="flex items-center mb-2">
                       <span className="bg-indigo-500 text-white text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wider mr-2">
                         Featured
                       </span>
                       <span
-                        className={`px-3 py-1 rounded-sm text-xs font-medium text-white ${
+                        className={`px-2 md:px-3 py-1 rounded-sm text-xs font-medium text-white ${
                           featuredEvent.status === "Available"
                             ? "bg-green-600"
                             : "bg-red-600"
@@ -184,16 +184,20 @@ const EventsPage = () => {
                           : "Closed"}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{featuredEvent.title}</h3>
-                    <div className="flex items-center text-indigo-200 mb-4">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span className="text-sm mr-4">{featuredEvent.date}</span>
-                      <MapPin className="h-4 w-4 mr-1" />
-                      <span className="text-sm">{featuredEvent.location}</span>
+                    <h3 className="text-lg md:text-2xl font-bold text-white mb-2">{featuredEvent.title}</h3>
+                    <div className="flex flex-col sm:flex-row sm:items-center text-indigo-200 mb-3 md:mb-4 gap-2 sm:gap-4">
+                      <div className="flex items-center">
+                        <Calendar className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                        <span className="text-xs md:text-sm">{featuredEvent.date}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <MapPin className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                        <span className="text-xs md:text-sm truncate">{featuredEvent.location}</span>
+                      </div>
                     </div>
                     <Link
                       to={`/events/${featuredEvent.id}`}
-                      className="inline-block px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors font-medium"
+                      className="inline-block px-4 md:px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors font-medium text-sm md:text-base"
                     >
                       View Details
                     </Link>
@@ -206,12 +210,12 @@ const EventsPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Events Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <h2 className="text-3xl font-bold text-gray-900 mr-4">Events</h2>
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mr-0 sm:mr-4">Events</h2>
               <div className="flex items-center text-gray-500 text-sm">
                 <span className="mr-1">{filteredEvents.length}</span>
                 <span>{filteredEvents.length === 1 ? 'event' : 'events'} found</span>
@@ -241,7 +245,7 @@ const EventsPage = () => {
                     className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300"
                   >
                     <div className="flex flex-col md:flex-row">
-                      <div className="md:w-1/4 h-48 md:h-auto relative">
+                      <div className="md:w-1/4 h-40 md:h-auto relative">
                         <img
                           src={event.image}
                           alt={event.title}
@@ -262,7 +266,7 @@ const EventsPage = () => {
                         </div>
                       </div>
 
-                      <div className="p-6 md:w-3/4 flex flex-col justify-between">
+                      <div className="p-4 md:p-6 md:w-3/4 flex flex-col justify-between">
                         <div>
                           <div className="flex flex-wrap items-center gap-2 mb-2">
                             <span
@@ -282,46 +286,46 @@ const EventsPage = () => {
                             )}
                           </div>
 
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">
+                          <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
                             {event.title}
                           </h3>
-                          <p className="text-gray-600 mb-4 line-clamp-2">
+                          <p className="text-sm md:text-base text-gray-600 mb-3 md:mb-4 line-clamp-2">
                             {event.description}
                           </p>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4">
                           <div className="flex items-center text-gray-600">
-                            <Calendar className="h-5 w-5 mr-2 text-indigo-500" />
-                            <span>{event.date}</span>
+                            <Calendar className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
+                            <span className="text-xs md:text-sm truncate">{event.date}</span>
                           </div>
                           <div className="flex items-center text-gray-600">
-                            <Clock className="h-5 w-5 mr-2 text-indigo-500" />
-                            <span>Deadline: {event.registrationDeadline}</span>
+                            <Clock className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
+                            <span className="text-xs md:text-sm truncate">Deadline: {event.registrationDeadline}</span>
                           </div>
                           <div className="flex items-center text-gray-600">
-                            <MapPin className="h-5 w-5 mr-2 text-indigo-500" />
-                            <span>{event.location}</span>
+                            <MapPin className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
+                            <span className="text-xs md:text-sm truncate">{event.location}</span>
                           </div>
                           <div className="flex items-center text-gray-600">
-                            <Users className="h-5 w-5 mr-2 text-indigo-500" />
-                            <span>{event.participantCount} participants</span>
+                            <Users className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
+                            <span className="text-xs md:text-sm">{event.participantCount} participants</span>
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                           <div className="flex items-center">
-                            <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div className="w-20 md:w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
                               <div
                                 className="h-full bg-indigo-600"
                                 style={{ width: `${event.popularity}%` }}
                               ></div>
                             </div>
-                            <span className="ml-2 text-sm text-gray-600">{event.popularity}% popularity</span>
+                            <span className="ml-2 text-xs md:text-sm text-gray-600">{event.popularity}% popularity</span>
                           </div>
                           <Link
                             to={`/events/${event.id}`}
-                            className="px-6 py-2 rounded-lg font-semibold text-center bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300"
+                            className="px-4 md:px-6 py-2 rounded-lg font-semibold text-center bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 text-sm md:text-base"
                           >
                             View Details
                           </Link>

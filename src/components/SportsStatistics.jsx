@@ -168,24 +168,24 @@ const SportsStatistics = () => {
   return (
     <section 
       id="sports-statistics" 
-      className="py-20 bg-gradient-to-br from-gray-50 to-indigo-50"
+      className="py-16 md:py-20 bg-gradient-to-br from-gray-50 to-indigo-50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4">
             User Analytics
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             Explore department-wise user data and achievements
           </p>
         </div>
 
         {/* Tab navigation */}
-        <div className="flex justify-center mb-10">
-          <div className="inline-flex bg-gray-100 rounded-lg p-1">
+        <div className="flex justify-center mb-6 md:mb-10 px-4">
+          <div className="inline-flex bg-gray-100 rounded-lg p-1 w-full max-w-md md:w-auto">
             <button
               onClick={() => setActiveTab("participation")}
-              className={`px-4 py-2 rounded-md font-medium transition-all ${
+              className={`flex-1 md:flex-none px-3 md:px-4 py-2 rounded-md font-medium text-sm md:text-base transition-all ${
                 activeTab === "participation"
                   ? "bg-indigo-600 text-white shadow-md"
                   : "text-gray-700 hover:bg-gray-200"
@@ -195,7 +195,7 @@ const SportsStatistics = () => {
             </button>
             <button
               onClick={() => setActiveTab("achievements")}
-              className={`px-4 py-2 rounded-md font-medium transition-all ${
+              className={`flex-1 md:flex-none px-3 md:px-4 py-2 rounded-md font-medium text-sm md:text-base transition-all ${
                 activeTab === "achievements"
                   ? "bg-indigo-600 text-white shadow-md"
                   : "text-gray-700 hover:bg-gray-200"
@@ -207,39 +207,39 @@ const SportsStatistics = () => {
         </div>
 
         {/* Charts */}
-        <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+        <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 lg:p-8">
           {isLoading ? (
-            <div className="flex justify-center items-center h-80">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+            <div className="flex justify-center items-center h-64 md:h-80">
+              <div className="animate-spin rounded-full h-8 w-8 md:h-12 md:w-12 border-t-2 border-b-2 border-indigo-500"></div>
             </div>
           ) : (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={animateCharts ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
-              className="h-80 md:h-96"
+              className="h-64 md:h-80 lg:h-96"
             >
               {activeTab === "participation" ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={departmentData}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
+                    margin={{ top: 20, right: 15, left: 10, bottom: 40 }}
                   >
                     <XAxis
                       dataKey="code"
-                      tick={{ fill: '#4B5563' }}
+                      tick={{ fill: '#4B5563', fontSize: 12 }}
                       tickLine={{ stroke: '#9CA3AF' }}
                       axisLine={{ stroke: '#D1D5DB' }}
                     />
                     <YAxis
-                      tick={{ fill: '#4B5563' }}
+                      tick={{ fill: '#4B5563', fontSize: 12 }}
                       tickLine={{ stroke: '#9CA3AF' }}
                       axisLine={{ stroke: '#D1D5DB' }}
                       label={{
                         value: 'Number of Users',
                         angle: -90,
                         position: 'insideLeft',
-                        style: { fill: '#4B5563' }
+                        style: { fill: '#4B5563', fontSize: 12 }
                       }}
                     />
                     <Tooltip content={<CustomTooltip />} />
@@ -263,14 +263,14 @@ const SportsStatistics = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      outerRadius={150}
-                      innerRadius={60}
+                      outerRadius={window.innerWidth < 768 ? 80 : 150}
+                      innerRadius={window.innerWidth < 768 ? 40 : 60}
                       fill="#8884d8"
                       dataKey="value"
                       nameKey="code"
                       animationDuration={1500}
                       animationBegin={animateCharts ? 0 : 9999}
-                      label={({ code, percent }) => `${code} ${(percent * 100).toFixed(0)}%`}
+                      label={({ code, percent }) => window.innerWidth < 768 ? code : `${code} ${(percent * 100).toFixed(0)}%`}
                     >
                       {achievementsData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
@@ -293,14 +293,14 @@ const SportsStatistics = () => {
 
           {/* Legend for pie chart */}
           {activeTab === "achievements" && !isLoading && (
-            <div className="flex flex-wrap justify-center mt-6 gap-4">
+            <div className="flex flex-wrap justify-center mt-4 md:mt-6 gap-2 md:gap-4 px-2">
               {achievementsData.map((entry) => (
                 <div key={entry.code} className="flex items-center">
                   <div
-                    className="w-4 h-4 rounded-full mr-2"
+                    className="w-3 h-3 md:w-4 md:h-4 rounded-full mr-1 md:mr-2"
                     style={{ backgroundColor: entry.color }}
                   />
-                  <span className="text-gray-700">{entry.code}: {entry.value} achievements</span>
+                  <span className="text-xs md:text-sm text-gray-700">{entry.code}: {entry.value} achievements</span>
                 </div>
               ))}
             </div>
@@ -308,33 +308,33 @@ const SportsStatistics = () => {
         </div>
 
         {/* Additional stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-6 md:mt-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={animateCharts ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-xl shadow-md p-6 text-center"
+            className="bg-white rounded-xl shadow-md p-4 md:p-6 text-center"
           >
-            <div className="text-4xl font-bold text-indigo-600 mb-2">8</div>
-            <div className="text-gray-700">Departments</div>
+            <div className="text-3xl md:text-4xl font-bold text-indigo-600 mb-1 md:mb-2">8</div>
+            <div className="text-sm md:text-base text-gray-700">Departments</div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={animateCharts ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-white rounded-xl shadow-md p-6 text-center"
+            className="bg-white rounded-xl shadow-md p-4 md:p-6 text-center"
           >
-            <div className="text-4xl font-bold text-indigo-600 mb-2">85%</div>
-            <div className="text-gray-700">User Registration Rate</div>
+            <div className="text-3xl md:text-4xl font-bold text-indigo-600 mb-1 md:mb-2">85%</div>
+            <div className="text-sm md:text-base text-gray-700">User Registration Rate</div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={animateCharts ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-white rounded-xl shadow-md p-6 text-center"
+            className="bg-white rounded-xl shadow-md p-4 md:p-6 text-center"
           >
-            <div className="text-4xl font-bold text-indigo-600 mb-2">130+</div>
-            <div className="text-gray-700">Total User Achievements</div>
+            <div className="text-3xl md:text-4xl font-bold text-indigo-600 mb-1 md:mb-2">130+</div>
+            <div className="text-sm md:text-base text-gray-700">Total User Achievements</div>
           </motion.div>
         </div>
       </div>
