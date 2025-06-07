@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Trophy, Medal, Star, Award, Users, Target, ChevronRight, ChevronDown } from 'lucide-react';
+import { Trophy, Medal, Star, Award, Users, Target, ChevronRight, ChevronDown, X, ZoomIn } from 'lucide-react';
 
 const AchievementSection = () => {
   const [activeTab, setActiveTab] = useState("teams");
   const [expandedCard, setExpandedCard] = useState(null);
   const [counts, setCounts] = useState({ gold: 0, silver: 0, bronze: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const sectionRef = useRef(null);
 
   // Counter animation effect
@@ -69,6 +71,52 @@ const AchievementSection = () => {
     };
   }, []);
 
+  // Achievement gallery images
+  const achievementGallery = [
+    {
+      id: 1,
+      title: "Basketball Championship",
+      description: "National Champions 2023",
+      image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      category: "Team Sports"
+    },
+    {
+      id: 2,
+      title: "Swimming Victory",
+      description: "State Level Gold Medal",
+      image: "https://images.unsplash.com/photo-1519315901367-f34ff9154487?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      category: "Individual"
+    },
+    {
+      id: 3,
+      title: "Athletics Meet",
+      description: "Inter-College Champions",
+      image: "https://images.unsplash.com/photo-1532444458054-01a7dd3e9fca?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      category: "Track & Field"
+    },
+    {
+      id: 4,
+      title: "Table Tennis",
+      description: "National Runner-up",
+      image: "https://images.unsplash.com/photo-1534158914592-062992fbe900?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      category: "Indoor Sports"
+    },
+    {
+      id: 5,
+      title: "Karate Championship",
+      description: "State Gold Medal",
+      image: "https://images.unsplash.com/photo-1555597673-b21d5c935865?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      category: "Martial Arts"
+    },
+    {
+      id: 6,
+      title: "Cricket Tournament",
+      description: "Inter-University Winners",
+      image: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+      category: "Team Sports"
+    }
+  ];
+
   // Achievement data organized by categories
   const achievementData = {
     teams: [
@@ -92,6 +140,37 @@ const AchievementSection = () => {
   const toggleCard = (index) => {
     setExpandedCard(expandedCard === index ? null : index);
   };
+
+  // Handle image click to open modal
+  const handleImageClick = (achievement) => {
+    setSelectedImage(achievement);
+    setIsModalOpen(true);
+  };
+
+  // Handle modal close
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
 
   return (
     <section
@@ -169,6 +248,60 @@ const AchievementSection = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Achievement Gallery */}
+        <div
+          className={`mb-8 md:mb-12 transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"
+          }`}
+        >
+          <h3 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 text-yellow-300">
+            Achievement Gallery
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            {achievementGallery.map((achievement, index) => (
+              <div
+                key={achievement.id}
+                className="relative group cursor-pointer overflow-hidden rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105"
+                onClick={() => handleImageClick(achievement)}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <div className="aspect-square relative">
+                  <img
+                    src={achievement.image}
+                    alt={achievement.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  
+                  {/* Mobile tap indicator */}
+                  <div className="absolute top-2 right-2 md:hidden bg-white/90 rounded-full p-1.5 shadow-lg">
+                    <ZoomIn className="h-3 w-3 text-gray-700" />
+                  </div>
+                  
+                  {/* Desktop hover overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center">
+                    <div className="bg-white/90 rounded-full p-3">
+                      <ZoomIn className="h-6 w-6 text-gray-700" />
+                    </div>
+                  </div>
+                  
+                  {/* Text overlay at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-3 md:p-4">
+                    <h4 className="text-white font-semibold text-sm md:text-base mb-1 leading-tight">
+                      {achievement.title}
+                    </h4>
+                    <p className="text-white/90 text-xs md:text-sm leading-tight">
+                      {achievement.description}
+                    </p>
+                    <span className="inline-block mt-1 px-2 py-0.5 bg-yellow-400/90 text-black text-xs rounded-full font-medium">
+                      {achievement.category}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -319,6 +452,52 @@ const AchievementSection = () => {
           </button>
         </div>
       </div>
+
+      {/* Image Modal */}
+      {isModalOpen && selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 md:p-4"
+          onClick={closeModal}
+        >
+          <div 
+            className="relative max-w-4xl max-h-[95vh] md:max-h-[90vh] w-full bg-white rounded-xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors duration-200"
+            >
+              <X className="h-5 w-5 md:h-6 md:w-6" />
+            </button>
+
+            {/* Image container */}
+            <div className="relative">
+              <img
+                src={selectedImage.image}
+                alt={selectedImage.title}
+                className="w-full h-auto max-h-[70vh] md:max-h-[60vh] object-contain"
+              />
+            </div>
+
+            {/* Achievement details */}
+            <div className="p-4 md:p-6 bg-gradient-to-b from-indigo-900 via-indigo-800 to-purple-900 text-white">
+              <h2 className="text-xl md:text-2xl font-bold mb-2">{selectedImage.title}</h2>
+              <p className="text-indigo-200 mb-3 text-sm md:text-base">{selectedImage.description}</p>
+              
+              <div className="flex items-center justify-between">
+                <span className="px-3 py-1 bg-yellow-400 text-black text-sm font-semibold rounded-full">
+                  {selectedImage.category}
+                </span>
+                <div className="text-right">
+                  <p className="text-xs text-indigo-300">Achievement Gallery</p>
+                  <p className="text-sm font-medium">Sportalon College</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Add custom CSS for animations */}
       <style jsx>{`
