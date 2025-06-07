@@ -71,6 +71,9 @@ const EventDetailPage = () => {
         if (data.success) {
           // Add a small delay to show loading animation
           setTimeout(() => {
+            console.log("Event data received:", data.event);
+            console.log("Coordinator name:", data.event.coordinator_name);
+            console.log("Coordinator phone:", data.event.coordinator_no);
             setEventDetails(data.event);
             setIsLoading(false);
 
@@ -703,28 +706,65 @@ const EventDetailPage = () => {
                     <User className="h-5 w-5 text-indigo-600 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Event Coordinator</h3>
-                      <p className="text-gray-600">Mr. Rahul Sharma</p>
+                      <p className="text-gray-600">
+                        {event.coordinator_name || "Coordinator information not available"}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start">
                     <Phone className="h-5 w-5 text-indigo-600 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Phone</h3>
-                      <p className="text-gray-600">+91 98765 43210</p>
+                      <p className="text-gray-600">
+                        {event.coordinator_no ? (
+                          <div className="space-y-1">
+                            <a 
+                              href={`tel:${event.coordinator_no}`}
+                              className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors block"
+                            >
+                              {event.coordinator_no}
+                            </a>
+                            <a 
+                              href={`https://wa.me/${event.coordinator_no.replace(/[^0-9]/g, '')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-green-600 hover:text-green-800 text-sm flex items-center hover:underline transition-colors"
+                            >
+                              <span className="mr-1">📱</span> WhatsApp
+                            </a>
+                          </div>
+                        ) : (
+                          "Phone number not available"
+                        )}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start">
                     <Mail className="h-5 w-5 text-indigo-600 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Email</h3>
-                      <p className="text-gray-600">sports@sinhgad.edu</p>
+                      <p className="text-gray-600">
+                        <a 
+                          href="mailto:sports@sinhgad.edu"
+                          className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
+                        >
+                          sports@sinhgad.edu
+                        </a>
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start">
                     <Heart className="h-5 w-5 text-indigo-600 mr-3 mt-1" />
                     <div>
                       <h3 className="font-semibold">Emergency Support</h3>
-                      <p className="text-gray-600">+91 98765 43211</p>
+                      <p className="text-gray-600">
+                        <a 
+                          href="tel:+919876543211"
+                          className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
+                        >
+                          +91 98765 43211
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </div>

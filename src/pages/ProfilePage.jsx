@@ -13,7 +13,6 @@ import {
   ChevronUp,
   Loader,
   Trophy,
-  Star,
   Clock,
   ArrowRight
 } from "lucide-react";
@@ -132,7 +131,6 @@ const ProfilePage = () => {
                 data.user.sports_interest) : 
               [],
             participationHistory: data.user.registeredEvents || [],
-            skillLevel: "Intermediate", // Default value
             achievements: [], // No achievements in response
             profileImage: data.user.profile_picture,
             feeReceipt: data.user.collegeid,
@@ -187,7 +185,6 @@ const ProfilePage = () => {
                 data.user.sports_interest.split(',').map(sport => sport.trim()) : 
                 [],
               participationHistory: data.user.registeredEvents || [],
-              skillLevel: "Intermediate",
               achievements: [],
               profileImage: data.user.profile_picture || data.user.profileImage,
               feeReceipt: data.user.collegeid || data.user.feeReceipt,
@@ -319,9 +316,7 @@ const ProfilePage = () => {
                 <span className="px-3 py-1 bg-purple-700/50 rounded-full text-xs font-medium text-purple-100 backdrop-blur-sm">
                   Year {profile.year}
                 </span>
-                <span className="px-3 py-1 bg-blue-700/50 rounded-full text-xs font-medium text-blue-100 backdrop-blur-sm flex items-center">
-                  <Star className="h-3 w-3 mr-1" /> {profile.skillLevel}
-                </span>
+
               </div>
             </div>
           </div>
@@ -419,29 +414,7 @@ const ProfilePage = () => {
                   )}
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 text-gray-800">Skill Level</h3>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-700 font-medium">{profile.skillLevel}</span>
-                      <span className="text-gray-500 text-sm">
-                        {profile.skillLevel === "Beginner" ? "25%" :
-                         profile.skillLevel === "Intermediate" ? "50%" :
-                         profile.skillLevel === "Advanced" ? "75%" : "100%"}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div
-                        className="h-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600"
-                        style={{
-                          width: profile.skillLevel === "Beginner" ? "25%" :
-                                 profile.skillLevel === "Intermediate" ? "50%" :
-                                 profile.skillLevel === "Advanced" ? "75%" : "100%"
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
+
               </div>
           </div>
 

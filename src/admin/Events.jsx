@@ -680,6 +680,11 @@ function Events() {
 
                   {/* Coordinator Info */}
                   <div className="space-y-4">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
+                        <strong>Important:</strong> Coordinator details will be displayed in the Contact tab of event details page for participants to reach out.
+                      </p>
+                    </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Coordinator Name
@@ -699,13 +704,15 @@ function Events() {
                         Coordinator Mobile Number
                       </label>
                       <input
-                        type="text"
+                        type="tel"
                         name="coordinator_no"
                         value={formData.coordinator_no}
                         onChange={handleInputChange}
                         className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
                         required
-                        placeholder="Enter coordinator mobile number"
+                        pattern="[0-9+\-\s\(\)]+"
+                        placeholder="Enter coordinator mobile number (e.g., +91 98765 43210)"
+                        title="Please enter a valid phone number"
                       />
                     </div>
                   </div>

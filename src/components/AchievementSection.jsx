@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Trophy, Medal, Star, Award, Users, Target, ChevronRight, ChevronDown } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import { Trophy, Medal, Star, Award, Users, Target, ChevronRight, ChevronDown, ArrowRight } from 'lucide-react';
 
 const AchievementSection = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("teams");
   const [expandedCard, setExpandedCard] = useState(null);
   const [counts, setCounts] = useState({ gold: 0, silver: 0, bronze: 0 });
@@ -93,6 +95,12 @@ const AchievementSection = () => {
   // Toggle card expansion
   const toggleCard = (index) => {
     setExpandedCard(expandedCard === index ? null : index);
+  };
+
+  // Navigate to achievements page
+  const handleExploreAllAchievements = () => {
+    console.log('Navigating to achievements page...');
+    navigate('/achievements');
   };
 
 
@@ -319,9 +327,11 @@ const AchievementSection = () => {
           }`}
         >
           <button
-            className="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full text-indigo-900 font-bold text-base md:text-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl"
+            onClick={handleExploreAllAchievements}
+            className="group px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full text-indigo-900 font-bold text-base md:text-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl hover:from-yellow-300 hover:to-yellow-400 cursor-pointer flex items-center justify-center gap-2"
           >
             Explore All Achievements
+            <ArrowRight className="h-5 w-5 md:h-6 md:w-6 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
         </div>
       </div>
