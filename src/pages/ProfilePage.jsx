@@ -87,7 +87,7 @@ const ProfilePage = () => {
 
         // Add authorization header with token
         const response = await fetch(
-          `http://localhost:5000/api/admin/users/getUser/${id}`,
+          `https://sportalon-backend.onrender.com/api/admin/users/getUser/${id}`,
           {
             method: 'GET',
             headers: {
@@ -156,7 +156,7 @@ const ProfilePage = () => {
         try {
           console.log("Trying alternative endpoint for user profile");
           const response = await fetch(
-            `http://localhost:5000/api/user/profile`,
+            `https://sportalon-backend.onrender.com/api/user/profile`,
             {
               method: 'GET',
               headers: {

@@ -68,7 +68,7 @@ function Events() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/admin/events");
+      const response = await fetch("https://sportalon-backend.onrender.com/api/admin/events");
       const data = await response.json();
       if (data.success) {
         setEvents(data.events);
@@ -118,7 +118,7 @@ function Events() {
       // Create payload with user id and email
       const payload = { ...formData, _id: id, createdBy: email };
 
-      const response = await fetch("http://localhost:5000/api/admin/events", {
+      const response = await fetch("https://sportalon-backend.onrender.com/api/admin/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,7 +170,7 @@ function Events() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/events/${eventId}`,
+        `https://sportalon-backend.onrender.com/api/admin/events/${eventId}`,
         {
           method: "DELETE",
         }

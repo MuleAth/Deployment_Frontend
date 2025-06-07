@@ -65,7 +65,7 @@ const EventDetailPage = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/api/user/getevent/${id}`
+          `https://sportalon-backend.onrender.com/api/user/getevent/${id}`
         );
         const data = await response.json();
         if (data.success) {
@@ -137,7 +137,7 @@ const EventDetailPage = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/user/getevent/register-event/${event._id}/${user}`,
+        `https://sportalon-backend.onrender.com/api/user/getevent/register-event/${event._id}/${user}`,
         {
           method: "POST",
           headers: {

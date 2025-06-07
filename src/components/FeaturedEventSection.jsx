@@ -16,7 +16,7 @@ const FeaturedEventSection = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/user/getevent");
+        const response = await fetch("https://sportalon-backend.onrender.com/api/user/getevent");
         const data = await response.json();
         if (data.success) {
           setEvents(
@@ -41,7 +41,7 @@ const FeaturedEventSection = () => {
     fetchEvents();
   }, []);
 
-  const link = `http://localhost:5000/events/${events._id}`;
+  const link = `https://sportalon-backend.onrender.com/events/${events._id}`;
 
   return (
     <section className="py-20 bg-gray-50" id="events">

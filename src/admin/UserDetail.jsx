@@ -13,7 +13,7 @@ function UserDetail() {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:5000/api/admin/users/getUser/${id}`);
+        const response = await fetch(`https://sportalon-backend.onrender.com/api/admin/users/getUser/${id}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch user data");

@@ -35,7 +35,7 @@ const EventsPage = () => {
     const fetchEvents = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:5000/api/user/getevent");
+        const response = await fetch("https://sportalon-backend.onrender.com/api/user/getevent");
         const data = await response.json();
 
         if (data.success) {

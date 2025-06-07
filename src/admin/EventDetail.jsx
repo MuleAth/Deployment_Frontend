@@ -18,7 +18,7 @@ function EventDetail() {
     const fetchEvent = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/admin/events/${id}`,
+          `https://sportalon-backend.onrender.com/api/admin/events/${id}`,
           {
             credentials: "include", // Include cookies for authentication
           }

@@ -30,7 +30,7 @@ const RecommendedEvents = ({ refreshTrigger }) => {
         // First try to fetch from the direct API
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/recommendations/user/${userId}`,
+            `https://sportalon-backend.onrender.com/api/recommendations/user/${userId}`,
             {
               withCredentials: true,
               headers: {
@@ -62,7 +62,7 @@ const RecommendedEvents = ({ refreshTrigger }) => {
         try {
           console.log('Trying fallback endpoint for recommendations');
           const fallbackResponse = await axios.get(
-            `http://localhost:5000/api/admin/events`,
+            `https://sportalon-backend.onrender.com/api/admin/events`,
             {
               withCredentials: true,
               headers: {

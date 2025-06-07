@@ -15,7 +15,7 @@ function NotificationBell() {
   const fetchNotifications = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/api/notifications", {
+      const response = await fetch("https://sportalon-backend.onrender.com/api/notifications", {
         credentials: "include",
       });
 
@@ -42,7 +42,7 @@ function NotificationBell() {
   // Fetch unread count
   const fetchUnreadCount = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/notifications/unread-count", {
+      const response = await fetch("https://sportalon-backend.onrender.com/api/notifications/unread-count", {
         credentials: "include",
       });
 
@@ -61,7 +61,7 @@ function NotificationBell() {
   const markAsRead = async (notificationId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/notifications/${notificationId}/read`,
+        `https://sportalon-backend.onrender.com/api/notifications/${notificationId}/read`,
         {
           method: "PATCH",
           credentials: "include",

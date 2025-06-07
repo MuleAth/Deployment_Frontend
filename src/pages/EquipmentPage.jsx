@@ -45,7 +45,7 @@ const EquipmentPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:5000/api/user/equipment")
+    fetch("https://sportalon-backend.onrender.com/api/user/equipment")
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -131,7 +131,7 @@ const EquipmentPage = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/user/equipment/request-equipment",
+        "https://sportalon-backend.onrender.com/api/user/equipment/request-equipment",
         {
           method: "POST",
           headers: {

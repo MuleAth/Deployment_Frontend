@@ -22,7 +22,7 @@ function Feedback() {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/feedback/all");
+        const response = await fetch("https://sportalon-backend.onrender.com/api/feedback/all");
         if (!response.ok) throw new Error("Failed to fetch feedbacks");
         const data = await response.json();
         setFeedbacks(data.feedbacks);
@@ -62,7 +62,7 @@ function Feedback() {
     }
   
     try {
-      const response = await fetch(`http://localhost:5000/api/feedback/delete/${id}`, {
+      const response = await fetch(`https://sportalon-backend.onrender.com/api/feedback/delete/${id}`, {
         method: "DELETE",
       });
   

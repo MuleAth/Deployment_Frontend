@@ -130,7 +130,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onProfileUpdate }) => {
       formDataUpload.append("image", profilePic);
 
       console.log("Uploading profile picture...");
-      const response = await fetch("http://localhost:5000/api/upload/image", {
+      const response = await fetch("https://sportalon-backend.onrender.com/api/upload/image", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`
@@ -172,7 +172,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onProfileUpdate }) => {
       console.log("Sending profile update with data:", updateData);
       
       // Send update request
-      const response = await fetch("http://localhost:5000/api/user/profile/update", {
+      const response = await fetch("https://sportalon-backend.onrender.com/api/user/profile/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

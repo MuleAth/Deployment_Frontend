@@ -19,7 +19,7 @@ function Notifications() {
     try {
       setLoading(true);
       const response = await fetch(
-        "http://localhost:5000/api/notifications/admin",
+        "https://sportalon-backend.onrender.com/api/notifications/admin",
         {
           credentials: "include",
         }
@@ -73,7 +73,7 @@ function Notifications() {
       // Show loading toast
       const loadingToastId = toast.loading("Sending notification...");
       
-      const response = await fetch("http://localhost:5000/api/notifications", {
+      const response = await fetch("https://sportalon-backend.onrender.com/api/notifications", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,7 +113,7 @@ function Notifications() {
     if (window.confirm("Are you sure you want to delete this notification?")) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/notifications/${id}`,
+          `https://sportalon-backend.onrender.com/api/notifications/${id}`,
           {
             method: "DELETE",
             credentials: "include",

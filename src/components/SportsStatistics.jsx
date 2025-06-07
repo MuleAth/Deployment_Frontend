@@ -39,7 +39,7 @@ const SportsStatistics = () => {
           }).toString();
 
           const response = await fetch(
-            `http://localhost:5000/api/admin/users/getAllUsers?${queryParams}`
+            `https://sportalon-backend.onrender.com/api/admin/users/getAllUsers?${queryParams}`
           );
 
           if (response.ok) {

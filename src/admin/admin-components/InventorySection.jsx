@@ -28,7 +28,7 @@ function InventorySection() {
   const fetchInventory = async () => {
     try {
       setLoadingInventory(true);
-      const response = await fetch("http://localhost:5000/api/admin/equipment");
+      const response = await fetch("https://sportalon-backend.onrender.com/api/admin/equipment");
       if (!response.ok) {
         throw new Error("Failed to fetch inventory");
       }
@@ -105,7 +105,7 @@ function InventorySection() {
         };
 
         const response = await fetch(
-          "http://localhost:5000/api/admin/equipment/add",
+          "https://sportalon-backend.onrender.com/api/admin/equipment/add",
           {
             method: "POST",
             headers: {

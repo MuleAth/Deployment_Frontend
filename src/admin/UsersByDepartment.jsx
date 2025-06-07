@@ -52,7 +52,7 @@ function UsersByDepartment() {
       }).toString();
 
       const response = await fetch(
-        `http://localhost:5000/api/admin/users/getAllUsers?${queryParams}`
+        `https://sportalon-backend.onrender.com/api/admin/users/getAllUsers?${queryParams}`
       );
 
       if (!response.ok) {
@@ -112,7 +112,7 @@ function UsersByDepartment() {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/admin/users/deleteUser/${userId}`,
+          `https://sportalon-backend.onrender.com/api/admin/users/deleteUser/${userId}`,
           {
             method: "DELETE",
             headers: {
@@ -143,7 +143,7 @@ function UsersByDepartment() {
       e.stopPropagation();
       try {
         const response = await fetch(
-          `http://localhost:5000/api/admin/users/approveUser/${userId}`,
+          `https://sportalon-backend.onrender.com/api/admin/users/approveUser/${userId}`,
           {
             method: "PATCH",
             headers: {
@@ -178,7 +178,7 @@ function UsersByDepartment() {
       }).toString();
       
       const response = await fetch(
-        `http://localhost:5000/api/admin/users/getAllUsers?${queryParams}`
+        `https://sportalon-backend.onrender.com/api/admin/users/getAllUsers?${queryParams}`
       );
       
       if (!response.ok) {

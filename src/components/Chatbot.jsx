@@ -56,7 +56,7 @@ const Chatbot = () => {
     setLoading(true);
 
     // Fetch equipment data
-    axios.get("http://localhost:5000/api/user/equipment")
+    axios.get("https://sportalon-backend.onrender.com/api/user/equipment")
       .then((res) => {
         console.log("Equipment API Response:", res.data);
         if (res.data && res.data.data) {
@@ -68,7 +68,7 @@ const Chatbot = () => {
       .catch((error) => console.error("API Error (Equipments):", error));
 
     // Fetch events data
-    axios.get("http://localhost:5000/api/user/getevent")
+    axios.get("https://sportalon-backend.onrender.com/api/user/getevent")
       .then((res) => {
         console.log("Events API Response:", res.data);
         if (res.data && res.data.events) {
@@ -339,7 +339,7 @@ const Chatbot = () => {
       setMessages((prev) => [...prev, { text: "Sending message...", sender: "bot", isTyping: true }]);
 
       // Simulate sending the message to the admin
-      axios.post("http://localhost:5000/api/admin/contact", { message: text })
+      axios.post("https://sportalon-backend.onrender.com/api/admin/contact", { message: text })
         .then(() => {
           // Remove typing indicator and add success message
           setMessages((prev) => {

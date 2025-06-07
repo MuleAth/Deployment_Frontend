@@ -15,7 +15,7 @@ function Equipment() {
       try {
         setLoadingRequests(true);
         const response = await fetch(
-          "http://localhost:5000/api/admin/equipment/getAllRequest"
+          "https://sportalon-backend.onrender.com/api/admin/equipment/getAllRequest"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch requests");
@@ -73,7 +73,7 @@ function Equipment() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/equipment/accept-request/${id}`,
+        `https://sportalon-backend.onrender.com/api/admin/equipment/accept-request/${id}`,
         {
           method: "PUT",
         }
@@ -104,7 +104,7 @@ function Equipment() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/equipment/reject-request/${id}`,
+        `https://sportalon-backend.onrender.com/api/admin/equipment/reject-request/${id}`,
         {
           method: "PUT",
         }
@@ -146,7 +146,7 @@ function Equipment() {
     try {
       setLoadingRequests(true);
       const response = await fetch(
-        "http://localhost:5000/api/admin/equipment/getAllRequest"
+        "https://sportalon-backend.onrender.com/api/admin/equipment/getAllRequest"
       );
       if (!response.ok) {
         throw new Error("Failed to fetch requests");
