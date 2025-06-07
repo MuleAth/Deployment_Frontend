@@ -219,13 +219,13 @@ const AchievementsPage = () => {
         </div>
 
         {/* Achievements Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {filteredAchievements.map((achievement) => (
             <div
               key={achievement.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300"
             >
-              <div className="h-40 md:h-48 overflow-hidden relative cursor-pointer group" onClick={() => handleImageClick(achievement)}>
+              <div className="h-56 md:h-48 lg:h-56 overflow-hidden relative cursor-pointer group" onClick={() => handleImageClick(achievement)}>
                 <img 
                   src={achievement.image} 
                   alt={achievement.title}
@@ -233,16 +233,21 @@ const AchievementsPage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 
-                {/* Zoom icon overlay for mobile/touch devices */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
-                  <div className="bg-white/90 rounded-full p-2 md:p-3">
-                    <ZoomIn className="h-4 w-4 md:h-6 md:w-6 text-gray-700" />
+                {/* Zoom icon overlay for desktop */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 hidden md:flex">
+                  <div className="bg-white/90 rounded-full p-3">
+                    <ZoomIn className="h-6 w-6 text-gray-700" />
                   </div>
                 </div>
                 
-                {/* Mobile tap indicator */}
-                <div className="absolute top-2 right-2 md:hidden bg-white/80 rounded-full p-1">
-                  <ZoomIn className="h-3 w-3 text-gray-700" />
+                {/* Mobile tap indicator - always visible */}
+                <div className="absolute top-3 right-3 md:hidden bg-white/90 rounded-full p-2 shadow-lg">
+                  <ZoomIn className="h-4 w-4 text-gray-700" />
+                </div>
+                
+                {/* Mobile tap hint */}
+                <div className="absolute top-3 left-3 md:hidden bg-black/70 text-white text-xs px-2 py-1 rounded-full">
+                  Tap to view
                 </div>
                 
                 <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4 right-3 md:right-4">
@@ -293,11 +298,11 @@ const AchievementsPage = () => {
       {/* Image Modal */}
       {isModalOpen && selectedImage && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 md:p-4"
           onClick={closeModal}
         >
           <div 
-            className="relative max-w-4xl max-h-[90vh] w-full bg-white rounded-xl overflow-hidden shadow-2xl"
+            className="relative max-w-4xl max-h-[95vh] md:max-h-[90vh] w-full bg-white rounded-xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -313,7 +318,7 @@ const AchievementsPage = () => {
               <img
                 src={selectedImage.image}
                 alt={selectedImage.title}
-                className="w-full h-auto max-h-[60vh] object-contain"
+                className="w-full h-auto max-h-[70vh] md:max-h-[60vh] object-contain"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               

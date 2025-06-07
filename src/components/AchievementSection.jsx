@@ -107,27 +107,27 @@ const AchievementSection = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`text-center mb-12 md:mb-16 transition-all duration-700 ${
             isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform -translate-y-8"
           }`}
         >
-          <h2 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-500">
+          <h2 className="text-3xl md:text-5xl font-bold mb-3 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-500">
             College Achievements
           </h2>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
+          <p className="text-base md:text-xl opacity-90 max-w-2xl mx-auto px-4">
             Celebrating our sporting excellence and the remarkable accomplishments of our athletes and teams
           </p>
         </div>
 
         {/* Tab navigation */}
-        <div className={`flex justify-center mb-12 space-x-2 overflow-x-auto pb-2 transition-all duration-700 delay-100 ${
+        <div className={`flex justify-center mb-8 md:mb-12 space-x-1 md:space-x-2 overflow-x-auto pb-2 transition-all duration-700 delay-100 ${
           isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform -translate-y-8"
         }`}>
           {Object.keys(achievementData).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-full font-medium text-sm md:text-base transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap ${
                 activeTab === tab
                   ? "bg-white text-indigo-900 shadow-lg"
                   : "bg-white/10 hover:bg-white/20"
@@ -140,32 +140,32 @@ const AchievementSection = () => {
 
         {/* Department achievement counter section */}
         <div
-          className={`bg-white/5 backdrop-blur-lg rounded-2xl p-8 mb-12 shadow-xl transition-all duration-700 delay-200 ${
+          className={`bg-white/5 backdrop-blur-lg rounded-2xl p-4 md:p-8 mb-8 md:mb-12 shadow-xl transition-all duration-700 delay-200 ${
             isVisible ? "opacity-100 transform scale-100" : "opacity-0 transform scale-90"
           }`}
         >
-          <div className="grid md:grid-cols-3 gap-8 items-center">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-8 items-center">
             <div className="text-center">
               <div className="inline-block animate-spin-slow">
-                <Trophy className="h-16 w-16 mx-auto mb-4 text-yellow-400" />
+                <Trophy className="h-10 w-10 md:h-16 md:w-16 mx-auto mb-2 md:mb-4 text-yellow-400" />
               </div>
-              <h3 className="text-2xl font-bold mb-2">Department Achievements</h3>
-              <p className="opacity-80">Our departments continue to excel</p>
+              <h3 className="text-lg md:text-2xl font-bold mb-1 md:mb-2">Department Achievements</h3>
+              <p className="opacity-80 text-sm md:text-base">Our departments continue to excel</p>
             </div>
 
-            <div className="col-span-2">
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-purple-500/20 rounded-xl">
-                  <p className="text-5xl font-bold text-purple-400 mb-2">{counts.gold}+</p>
-                  <p className="font-medium">IT</p>
+            <div className="md:col-span-2">
+              <div className="grid grid-cols-3 gap-2 md:gap-4">
+                <div className="text-center p-2 md:p-4 bg-purple-500/20 rounded-xl">
+                  <p className="text-2xl md:text-5xl font-bold text-purple-400 mb-1 md:mb-2">{counts.gold}+</p>
+                  <p className="font-medium text-xs md:text-base">IT</p>
                 </div>
-                <div className="text-center p-4 bg-indigo-500/20 rounded-xl">
-                  <p className="text-5xl font-bold text-indigo-400 mb-2">{counts.silver}+</p>
-                  <p className="font-medium">CS</p>
+                <div className="text-center p-2 md:p-4 bg-indigo-500/20 rounded-xl">
+                  <p className="text-2xl md:text-5xl font-bold text-indigo-400 mb-1 md:mb-2">{counts.silver}+</p>
+                  <p className="font-medium text-xs md:text-base">CS</p>
                 </div>
-                <div className="text-center p-4 bg-blue-500/20 rounded-xl">
-                  <p className="text-5xl font-bold text-blue-400 mb-2">{counts.bronze}+</p>
-                  <p className="font-medium">EnTC</p>
+                <div className="text-center p-2 md:p-4 bg-blue-500/20 rounded-xl">
+                  <p className="text-2xl md:text-5xl font-bold text-blue-400 mb-1 md:mb-2">{counts.bronze}+</p>
+                  <p className="font-medium text-xs md:text-base">EnTC</p>
                 </div>
               </div>
             </div>
@@ -173,11 +173,11 @@ const AchievementSection = () => {
         </div>
 
         {/* Achievement cards */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-8">
           {achievementData[activeTab].map((item, index) => (
             <div
               key={index}
-              className={`bg-white/10 backdrop-blur-lg rounded-xl p-6 shadow-xl border border-white/10 transition-all duration-500 cursor-pointer overflow-hidden hover:-translate-y-1 ${
+              className={`bg-white/10 backdrop-blur-lg rounded-xl p-4 md:p-6 shadow-xl border border-white/10 transition-all duration-500 cursor-pointer overflow-hidden hover:-translate-y-1 ${
                 expandedCard === index ? "md:col-span-3" : ""
               } ${isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"}`}
               style={{ transitionDelay: `${300 + index * 100}ms` }}
@@ -185,43 +185,45 @@ const AchievementSection = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <div className="p-3 bg-indigo-600/30 rounded-lg mr-4">
-                    <div className="h-8 w-8 text-yellow-400 transition-transform duration-300 hover:rotate-12">
+                  <div className="p-2 md:p-3 bg-indigo-600/30 rounded-lg mr-3 md:mr-4 flex-shrink-0">
+                    <div className="h-5 w-5 md:h-8 md:w-8 text-yellow-400 transition-transform duration-300 hover:rotate-12">
                       {item.icon}
                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold">{item.title}</h3>
-                    <p className="opacity-80 text-sm">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-base md:text-xl font-bold truncate">{item.title}</h3>
+                    <p className="opacity-80 text-xs md:text-sm">
                       {item.year || item.sport || "Recognition"}
                     </p>
                   </div>
                 </div>
                 <div
-                  className="transition-transform duration-300"
+                  className="transition-transform duration-300 flex-shrink-0 ml-2"
                   style={{ transform: expandedCard === index ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 >
-                  {expandedCard === index ? <ChevronDown /> : <ChevronRight />}
+                  <div className="h-4 w-4 md:h-6 md:w-6">
+                    {expandedCard === index ? <ChevronDown /> : <ChevronRight />}
+                  </div>
                 </div>
               </div>
 
               {expandedCard === index && (
                 <div
-                  className="mt-4 pt-4 border-t border-white/10 transition-all duration-500 overflow-hidden"
+                  className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-white/10 transition-all duration-500 overflow-hidden"
                   style={{
                     maxHeight: expandedCard === index ? '500px' : '0',
                     opacity: expandedCard === index ? 1 : 0
                   }}
                 >
-                  <p className="text-lg mb-3">
+                  <p className="text-sm md:text-lg mb-2 md:mb-3">
                     {item.description || item.achievement || "Outstanding achievement in collegiate sports"}
                   </p>
 
                   {/* Additional details based on category */}
                   {activeTab === "teams" && (
-                    <div className="bg-white/5 p-4 rounded-lg">
-                      <h4 className="font-bold mb-2">Team Highlights</h4>
-                      <ul className="list-disc list-inside space-y-1 opacity-90">
+                    <div className="bg-white/5 p-3 md:p-4 rounded-lg">
+                      <h4 className="font-bold mb-2 text-sm md:text-base">Team Highlights</h4>
+                      <ul className="list-disc list-inside space-y-1 opacity-90 text-xs md:text-sm">
                         <li>Undefeated season record</li>
                         <li>3 All-Star team selections</li>
                         <li>Featured in National Sports Magazine</li>
@@ -230,26 +232,26 @@ const AchievementSection = () => {
                   )}
 
                   {activeTab === "individuals" && (
-                    <div className="bg-white/5 p-4 rounded-lg">
-                      <h4 className="font-bold mb-2">Profile</h4>
-                      <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/5 p-3 md:p-4 rounded-lg">
+                      <h4 className="font-bold mb-2 text-sm md:text-base">Profile</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
                         {item.title === "Atharv Mule" && (
                           <>
                             <div>
-                              <p className="text-sm opacity-80">Department</p>
-                              <p>Information Technology</p>
+                              <p className="text-xs md:text-sm opacity-80">Department</p>
+                              <p className="text-sm md:text-base">Information Technology</p>
                             </div>
                             <div>
-                              <p className="text-sm opacity-80">Year</p>
-                              <p>Final Year</p>
+                              <p className="text-xs md:text-sm opacity-80">Year</p>
+                              <p className="text-sm md:text-base">Final Year</p>
                             </div>
                             <div>
-                              <p className="text-sm opacity-80">Achievements</p>
-                              <p>Karandak Champion</p>
+                              <p className="text-xs md:text-sm opacity-80">Achievements</p>
+                              <p className="text-sm md:text-base">Karandak Champion</p>
                             </div>
                             <div>
-                              <p className="text-sm opacity-80">Position</p>
-                              <p>Team Captain</p>
+                              <p className="text-xs md:text-sm opacity-80">Position</p>
+                              <p className="text-sm md:text-base">Team Captain</p>
                             </div>
                           </>
                         )}
@@ -257,12 +259,12 @@ const AchievementSection = () => {
                         {item.title === "Atharva Pandharikar" && (
                           <>
                             <div>
-                              <p className="text-sm opacity-80">Department</p>
-                              <p>Information Technology</p>
+                              <p className="text-xs md:text-sm opacity-80">Department</p>
+                              <p className="text-sm md:text-base">Information Technology</p>
                             </div>
                             <div>
-                              <p className="text-sm opacity-80">Year</p>
-                              <p>Final Year</p>
+                              <p className="text-xs md:text-sm opacity-80">Year</p>
+                              <p className="text-sm md:text-base">Final Year</p>
                             </div>
                             
                           </>
@@ -271,12 +273,12 @@ const AchievementSection = () => {
                         {item.title === "Sakshi Maluskar" && (
                           <>
                             <div>
-                              <p className="text-sm opacity-80">Department</p>
-                              <p>Information Technology</p>
+                              <p className="text-xs md:text-sm opacity-80">Department</p>
+                              <p className="text-sm md:text-base">Information Technology</p>
                             </div>
                             <div>
-                              <p className="text-sm opacity-80">Year</p>
-                              <p>Final Year</p>
+                              <p className="text-xs md:text-sm opacity-80">Year</p>
+                              <p className="text-sm md:text-base">Final Year</p>
                             </div>
                             
                           </>
@@ -286,12 +288,12 @@ const AchievementSection = () => {
                   )}
 
                   {activeTab === "recognition" && (
-                    <div className="bg-white/5 p-4 rounded-lg">
-                      <h4 className="font-bold mb-2">Award Details</h4>
-                      <p className="mb-2">Presented on May 15, 2023 at the National Sports Gala</p>
-                      <div className="flex items-center justify-center mt-4">
+                    <div className="bg-white/5 p-3 md:p-4 rounded-lg">
+                      <h4 className="font-bold mb-2 text-sm md:text-base">Award Details</h4>
+                      <p className="mb-2 text-xs md:text-sm">Presented on May 15, 2023 at the National Sports Gala</p>
+                      <div className="flex items-center justify-center mt-3 md:mt-4">
                         <button
-                          className="px-4 py-2 bg-indigo-600 rounded-lg text-white font-medium transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-indigo-500"
+                          className="px-3 md:px-4 py-2 bg-indigo-600 rounded-lg text-white font-medium text-xs md:text-sm transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-indigo-500"
                         >
                           View Certificate
                         </button>
@@ -306,12 +308,12 @@ const AchievementSection = () => {
 
         {/* Interactive call to action */}
         <div
-          className={`mt-16 text-center transition-all duration-700 delay-700 ${
+          className={`mt-12 md:mt-16 text-center transition-all duration-700 delay-700 ${
             isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"
           }`}
         >
           <button
-            className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full text-indigo-900 font-bold text-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl"
+            className="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full text-indigo-900 font-bold text-base md:text-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl"
           >
             Explore All Achievements
           </button>
