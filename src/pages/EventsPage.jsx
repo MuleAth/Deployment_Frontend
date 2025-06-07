@@ -226,111 +226,127 @@ const EventsPage = () => {
 
         {/* Loading State */}
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <Loader className="h-12 w-12 text-indigo-600 animate-spin mb-4" />
-            <p className="text-gray-600">Loading events...</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 animate-pulse">
+                <div className="h-48 bg-gray-300"></div>
+                <div className="p-4 md:p-6">
+                  <div className="h-6 bg-gray-300 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-4"></div>
+                  <div className="space-y-2 mb-4">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded mb-4"></div>
+                  <div className="h-10 bg-gray-300 rounded"></div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <>
-            {/* Events List */}
-            <div className="space-y-4">
+            {/* Events Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
               <AnimatePresence>
                 {filteredEvents.map((event, index) => (
                   <motion.div
                     key={event.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300"
+                    className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer"
                   >
-                    <div className="flex flex-col md:flex-row">
-                      <div className="md:w-1/4 h-40 md:h-auto relative">
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className="w-full h-full object-cover"
-                          onError={handleImageError}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r" />
+                    {/* Event Image */}
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        onError={handleImageError}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      
+                      {/* Status Badge */}
+                      <div className="absolute top-3 left-3">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium text-white ${
+                            event.status === "Available"
+                              ? "bg-green-600"
+                              : "bg-red-600"
+                          }`}
+                        >
+                          {event.status === "Available" ? "Open" : "Closed"}
+                        </span>
+                      </div>
 
-                        {/* Horizontal Status Bar */}
-                        <div className="absolute top-0 left-0 w-full h-2">
+                      {/* Popular Badge */}
+                      {event.popularity > 80 && (
+                        <div className="absolute top-3 right-3">
+                          <span className="px-2 py-1 bg-yellow-500 text-white rounded-full text-xs font-medium flex items-center">
+                            <Star className="h-3 w-3 mr-1 fill-white" />
+                            Popular
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Date Overlay */}
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <div className="flex items-center text-white text-sm">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          <span className="truncate">{event.date}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Event Content */}
+                    <div className="p-4 md:p-6">
+                      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                        {event.title}
+                      </h3>
+                      <p className="text-sm md:text-base text-gray-600 mb-4 line-clamp-3">
+                        {event.description}
+                      </p>
+
+                      {/* Event Details */}
+                      <div className="space-y-2 mb-4">
+                        <div className="flex items-center text-gray-600">
+                          <Clock className="h-4 w-4 mr-2 text-indigo-500 flex-shrink-0" />
+                          <span className="text-sm truncate">Deadline: {event.registrationDeadline}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <MapPin className="h-4 w-4 mr-2 text-indigo-500 flex-shrink-0" />
+                          <span className="text-sm truncate">{event.location}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <Users className="h-4 w-4 mr-2 text-indigo-500 flex-shrink-0" />
+                          <span className="text-sm">{event.participantCount} participants</span>
+                        </div>
+                      </div>
+
+                      {/* Popularity Bar */}
+                      <div className="mb-4">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-gray-500">Popularity</span>
+                          <span className="text-xs text-gray-600">{event.popularity}%</span>
+                        </div>
+                        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className={`w-full h-full ${
-                              event.status === "Available"
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            }`}
+                            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300"
+                            style={{ width: `${event.popularity}%` }}
                           ></div>
                         </div>
                       </div>
 
-                      <div className="p-4 md:p-6 md:w-3/4 flex flex-col justify-between">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2 mb-2">
-                            <span
-                              className={`px-2 py-1 rounded-full text-xs font-medium text-white ${
-                                event.status === "Available"
-                                  ? "bg-green-600"
-                                  : "bg-red-600"
-                              }`}
-                            >
-                              {event.status === "Available" ? "Open" : "Closed"}
-                            </span>
-                            {event.popularity > 80 && (
-                              <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium flex items-center">
-                                <Star className="h-3 w-3 mr-1 fill-yellow-500" />
-                                Popular
-                              </span>
-                            )}
-                          </div>
-
-                          <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
-                            {event.title}
-                          </h3>
-                          <p className="text-sm md:text-base text-gray-600 mb-3 md:mb-4 line-clamp-2">
-                            {event.description}
-                          </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4">
-                          <div className="flex items-center text-gray-600">
-                            <Calendar className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
-                            <span className="text-xs md:text-sm truncate">{event.date}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600">
-                            <Clock className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
-                            <span className="text-xs md:text-sm truncate">Deadline: {event.registrationDeadline}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600">
-                            <MapPin className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
-                            <span className="text-xs md:text-sm truncate">{event.location}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600">
-                            <Users className="h-4 w-4 md:h-5 md:w-5 mr-2 text-indigo-500 flex-shrink-0" />
-                            <span className="text-xs md:text-sm">{event.participantCount} participants</span>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                          <div className="flex items-center">
-                            <div className="w-20 md:w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-indigo-600"
-                                style={{ width: `${event.popularity}%` }}
-                              ></div>
-                            </div>
-                            <span className="ml-2 text-xs md:text-sm text-gray-600">{event.popularity}% popularity</span>
-                          </div>
-                          <Link
-                            to={`/events/${event.id}`}
-                            className="px-4 md:px-6 py-2 rounded-lg font-semibold text-center bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 text-sm md:text-base"
-                          >
-                            View Details
-                          </Link>
-                        </div>
-                      </div>
+                      {/* View Details Button */}
+                      <Link
+                        to={`/events/${event.id}`}
+                        className="group/button inline-flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg font-semibold text-center bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 text-sm md:text-base transform hover:scale-105"
+                      >
+                        View Details
+                        <Trophy className="h-4 w-4 transition-transform duration-300 group-hover/button:rotate-12" />
+                      </Link>
                     </div>
                   </motion.div>
                 ))}
