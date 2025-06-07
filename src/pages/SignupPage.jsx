@@ -98,7 +98,7 @@ const SignupPage = () => {
     
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/generate-otp",
+        "https://sportalon-front.vercel.app/api/auth/generate-otp",
         { email: formData.email },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -132,7 +132,7 @@ const SignupPage = () => {
     
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
+        "https://sportalon-front.vercel.app/api/auth/verify-otp",
         { email: formData.email, otp },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -164,7 +164,7 @@ const SignupPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://sportalon-front.vercel.app/api/auth/register",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
