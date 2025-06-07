@@ -19,7 +19,7 @@ import Footer from "./components/Footer";
 
 import ProtectedRoute from "./admin/admin-components/ProtectedRoute";
 import AdminLayout from "./admin/AdminLayout";
-import Dashboard from "./admin/dashboard";
+import Dashboard from "./admin/Dashboard";
 import Users from "./admin/Users";
 import UserDetail from "./admin/UserDetail";
 import Departments from "./admin/Departments";
