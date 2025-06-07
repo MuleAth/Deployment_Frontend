@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../redux-store/authSlice";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +14,8 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get('redirect');
 
   // Get token from Redux state
   const token = useSelector((state) => state.auth.token);
@@ -64,8 +66,10 @@ const LoginPage = () => {
         isVerifiedByAdmin: user.isVerifiedByAdmin,
         registered_events: user.registeredEvents,
       }));
-      // Redirect based on user type
-      if (user.user_type === "Admin") {
+      // Redirect based on redirect parameter or user type
+      if (redirectUrl) {
+        navigate(redirectUrl);
+      } else if (user.user_type === "Admin") {
         navigate("/admin");
       } else {
         navigate("/profile-page");

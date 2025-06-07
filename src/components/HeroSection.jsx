@@ -7,12 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const HeroSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [animatedValue, setAnimatedValue] = useState(0);
 
   const stats = [
-    { icon: Users, label: "Active Athletes", value: "500+", color: "from-blue-500 to-indigo-600" },
-    { icon: Award, label: "Championships", value: "25+", color: "from-purple-500 to-pink-600" },
+    { icon: Users, label: "Active Players", value: "500+", color: "from-blue-500 to-indigo-600" },
+    { icon: Award, label: "25+", value: "Champions", color: "from-purple-500 to-pink-600" },
     { icon: Play, label: "Sports", value: "15+", color: "from-amber-500 to-orange-600" },
   ];
 
@@ -36,15 +35,6 @@ const HeroSection = () => {
 
     return () => clearInterval(interval);
   }, []);
-
-  // Rotate through stats
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % stats.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [stats.length]);
 
   const handleCreateAccountClick = () => {
     if (token) {
@@ -130,81 +120,27 @@ const HeroSection = () => {
               </button>
             </div>
 
-            {/* Featured Stat with Animation */}
+            {/* Featured Stats */}
             <div className={`mt-12 md:mt-16 px-4 transition-all duration-700 delay-1000 ${
               isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}>
-              <div className="relative mx-auto max-w-xs md:max-w-md">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg className="w-full h-full" viewBox="0 0 100 100">
-                    <circle
-                      cx="50" cy="50" r="45"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.1)"
-                      strokeWidth="6"
-                    />
-                    <circle
-                      cx="50" cy="50" r="45"
-                      fill="none"
-                      stroke="url(#gradient)"
-                      strokeWidth="6"
-                      strokeDasharray="283"
-                      strokeDashoffset={283 - (283 * animatedValue / 100)}
-                      strokeLinecap="round"
-                      transform="rotate(-90 50 50)"
-                    />
-                    <defs>
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#6366f1" />
-                        <stop offset="100%" stopColor="#a855f7" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-
-                <div className="relative h-48 md:h-64 w-full">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    {stats.map((stat, index) => (
-                      <div
-                        key={stat.label}
-                        className={`absolute w-full h-full flex flex-col items-center justify-center transition-all duration-500 ${
-                          index === activeIndex
-                            ? 'opacity-100 scale-100'
-                            : 'opacity-0 scale-90'
-                        }`}
-                        style={{ transformOrigin: 'center center' }}
-                      >
-                        <stat.icon className={`h-8 w-8 md:h-12 md:w-12 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`} />
-                        <div className="text-3xl md:text-5xl font-bold text-white my-1 md:my-2">
-                          {stat.value}
-                        </div>
-                        <div className="text-lg md:text-xl text-indigo-200">{stat.label}</div>
-                      </div>
-                    ))}
+              <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 transform hover:scale-105 transition-all duration-300 border border-white/5 hover:border-white/20"
+                  >
+                    <stat.icon className={`h-8 w-8 md:h-12 md:w-12 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`} />
+                    <div className="text-3xl md:text-5xl font-bold text-white my-1 md:my-2">
+                      {stat.value}
+                    </div>
+                    <div className="text-lg md:text-xl text-indigo-200">{stat.label}</div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className={`mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto px-4 transition-all duration-700 delay-1200 ${
-              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}>
-              {stats.map(({ icon: Icon, label, value, color }) => (
-                <div
-                  key={label}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-4 md:p-6 transform hover:scale-105 transition-all duration-300 border border-white/5 hover:border-white/20 group"
-                >
-                  <div className={`p-2 md:p-3 rounded-full mx-auto mb-3 md:mb-4 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center bg-gradient-to-r ${color} bg-opacity-20 group-hover:scale-110 transition-all duration-300`}>
-                    <Icon className="h-6 w-6 md:h-8 md:w-8 text-white" />
-                  </div>
-                  <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">
-                    {value}
-                  </div>
-                  <div className="text-sm md:text-base text-indigo-200">{label}</div>
-                </div>
-              ))}
-            </div>
+
           </div>
         </div>
 

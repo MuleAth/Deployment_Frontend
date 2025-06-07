@@ -77,9 +77,30 @@ const EventDetailPage = () => {
             setEventDetails(data.event);
             setIsLoading(false);
 
-            // If register=true parameter is present and user can register, show the form
-            if (shouldRegister && token && isVerifiedByAdmin) {
-              setShowForm(true);
+            // If register=true parameter is present
+            if (shouldRegister) {
+              if (token) {
+                if (isVerifiedByAdmin) {
+                  // User is logged in and verified, show the registration form
+                  setShowForm(true);
+                } else {
+                  // User is logged in but not verified
+                  toast.warning("Your account needs to be verified by an admin before you can register for events.", {
+                    position: "top-center",
+                    autoClose: 5000
+                  });
+                }
+              } else {
+                // User is not logged in, show a message and redirect to login
+                toast.info("Please log in to register for this event", {
+                  position: "top-center",
+                  autoClose: 3000,
+                  onClose: () => {
+                    // After toast closes, redirect to login with a return URL
+                    navigate(`/login?redirect=/events/${id}?register=true`);
+                  }
+                });
+              }
             }
           }, 600);
         } else {
