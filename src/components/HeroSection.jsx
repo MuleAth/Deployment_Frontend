@@ -239,43 +239,43 @@ const HeroSection = () => {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMTIxMjEiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMC0zMHY2aDZ2LTZoLTZ6TTYgNHYyaDJ2LTJINnptMCA1MHYyaDJ2LTJINnptMTggMHYyaDJ2LTJoLTJ6bTE4IDB2Mmgydi0yaC0yek02IDI0djJoMnYtMkg2em0wIDEwdjJoMnYtMkg2em0wLTIwdjJoMnYtMkg2em0xOCAyMHYyaDJ2LTJoLTJ6bTAtMjB2Mmgydi0yaC0yem0xOCAyMHYyaDJ2LTJoLTJ6bTAtMjB2Mmgydi0yaC0yeiIvPjwvZz48L2c+PC9zdmc+')] opacity-20"></div>
         </div>
 
-        <div className="relative min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8">
+        <div className="relative min-h-screen flex flex-col justify-center px-2 sm:px-6 lg:px-8">
           <div
-            className={`max-w-7xl mx-auto w-full pt-20 pb-16 text-center mt-12 transition-all duration-1000 ease-out ${
+            className={`max-w-7xl mx-auto w-full pt-16 sm:pt-20 pb-12 sm:pb-16 text-center mt-8 sm:mt-12 transition-all duration-1000 ease-out ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-              <span className={`block mt-10 transition-all duration-700 delay-300 ${
+            <h1 className="text-3xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 tracking-tight px-2">
+              <span className={`block mt-4 sm:mt-10 transition-all duration-700 delay-300 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}>
                 Unleash Your Potential at
               </span>
-              <span className={`block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent py-4 transition-all duration-700 delay-500 ${
+              <span className={`block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent py-2 sm:py-4 transition-all duration-700 delay-500 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}>
                 Sinhgad College of Engineering
               </span>
             </h1>
 
-            <p className={`mt-6 text-xl sm:text-2xl text-indigo-200 max-w-3xl mx-auto transition-all duration-700 delay-700 ${
+            <p className={`mt-4 sm:mt-6 text-lg sm:text-2xl text-indigo-200 max-w-3xl mx-auto transition-all duration-700 delay-700 px-4 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
               Where Champions Are Made. Join Our Elite Sports Program.
             </p>
 
-            <div className={`mt-10 flex flex-col sm:flex-row justify-center gap-4 transition-all duration-700 delay-900 ${
+            <div className={`mt-10 flex flex-row justify-center gap-3 sm:gap-4 transition-all duration-700 delay-900 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
-              <a href="/events" rel="noopener noreferrer">
-                <button className="group px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-500 hover:to-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg flex items-center justify-center">
+              <a href="/events" rel="noopener noreferrer" className="flex-1 sm:flex-none">
+                <button className="w-full sm:w-auto group px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-500 hover:to-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg flex items-center justify-center">
                   Explore Events
                   <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
                 </button>
               </a>
               <button
                 onClick={handleCreateAccountClick}
-                className="px-8 py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 border border-white/20"
+                className="flex-1 sm:flex-none w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 border border-white/20"
               >
                 Sign In
               </button>
@@ -287,30 +287,36 @@ const HeroSection = () => {
             }`}>
               <button
                 onClick={() => setShowFeedbackForm(!showFeedbackForm)}
-                className="px-5 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full hover:from-indigo-500 hover:to-purple-500 transition-all font-semibold flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 active:shadow-md mx-auto"
+                className="px-4 sm:px-5 py-2 sm:py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full hover:from-indigo-500 hover:to-purple-500 transition-all font-semibold flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 active:shadow-md mx-auto text-sm sm:text-base"
               >
-                <MessageSquare className="h-5 w-5" />
-                {showFeedbackForm ? "Hide Feedback" : "Share Your Feedback"}
-                {showFeedbackForm ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5" />
+                {showFeedbackForm ? "Hide Feedback" : 
+                  <span className="hidden sm:inline">Share Your Feedback</span>
+                }
+                {showFeedbackForm ? 
+                  <span className="sm:hidden">Hide</span> : 
+                  <span className="sm:hidden">Feedback</span>
+                }
+                {showFeedbackForm ? <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5" /> : <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5" />}
               </button>
             </div>
 
             {/* Stats Grid */}
-            <div className={`mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto transition-all duration-700 delay-1200 ${
+            <div className={`mt-10 sm:mt-16 grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-8 max-w-4xl mx-auto transition-all duration-700 delay-1200 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
               {stats.map(({ icon: Icon, label, value, color }) => (
                 <div
                   key={label}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-6 transform hover:scale-105 transition-all duration-300 border border-white/5 hover:border-white/20 group"
+                  className="bg-white/10 backdrop-blur-sm rounded-xl p-2 sm:p-6 transform hover:scale-105 transition-all duration-300 border border-white/5 hover:border-white/20 group"
                 >
-                  <div className={`p-3 rounded-full mx-auto mb-4 w-16 h-16 flex items-center justify-center bg-gradient-to-r ${color} bg-opacity-20 group-hover:scale-110 transition-all duration-300`}>
-                    <Icon className="h-8 w-8 text-white" />
+                  <div className={`p-2 sm:p-3 rounded-full mx-auto mb-2 sm:mb-4 w-10 h-10 sm:w-16 sm:h-16 flex items-center justify-center bg-gradient-to-r ${color} bg-opacity-20 group-hover:scale-110 transition-all duration-300`}>
+                    <Icon className="h-5 w-5 sm:h-8 sm:w-8 text-white" />
                   </div>
-                  <div className="text-3xl font-bold text-white mb-2">
+                  <div className="text-xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">
                     {value}
                   </div>
-                  <div className="text-indigo-200">{label}</div>
+                  <div className="text-xs sm:text-base text-indigo-200">{label}</div>
                 </div>
               ))}
             </div>
