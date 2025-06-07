@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../redux-store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, API_ENDPOINTS, createApiUrl } from "../config/api";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -93,28 +94,64 @@ const SignupPage = () => {
   
   // Send OTP to user's email
   const handleSendOtp = async () => {
+    // Validate email format before sending request
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+    
     setIsLoading(true);
     setError(null);
+    setSuccessMessage("");
     
     try {
+      // Show immediate feedback to user
+      setSuccessMessage("Sending OTP to your email...");
+      
+      // Use API URL from config
+      const apiUrl = createApiUrl(API_ENDPOINTS.GENERATE_OTP);
+      
+      console.log("Sending OTP request to:", apiUrl);
+      
       const response = await axios.post(
-        "https://sportalon-backend.onrender.com/api/auth/generate-otp",
+        apiUrl,
         { email: formData.email },
-        { headers: { "Content-Type": "application/json" } }
+        { 
+          headers: { "Content-Type": "application/json" },
+          // Add timeout to prevent hanging requests
+          timeout: 15000 
+        }
       );
       
       if (response.data.success) {
         setOtpSent(true);
-        setSuccessMessage("OTP sent to your email");
+        setSuccessMessage("OTP sent to your email. Please check your inbox (and spam folder).");
         setCurrentStep(2);
         
         // Set countdown for resend button
         setResendDisabled(true);
         setCountdown(60);
+      } else {
+        // Handle unexpected success response without success flag
+        setError("Something went wrong. Please try again.");
       }
     } catch (err) {
-      console.error(err.response?.data || "Error sending OTP");
-      setError(err.response?.data?.message || "Failed to send OTP, please try again.");
+      console.error("OTP Error:", err);
+      
+      // Handle different types of errors with specific messages
+      if (err.code === "ECONNABORTED") {
+        setError("Request timed out. Please check your internet connection and try again.");
+      } else if (err.response) {
+        // Server responded with an error status
+        setError(err.response.data?.message || `Error (${err.response.status}): Failed to send OTP, please try again.`);
+      } else if (err.request) {
+        // Request was made but no response received
+        setError("No response from server. Please check your internet connection and try again.");
+      } else {
+        // Something else went wrong
+        setError("An unexpected error occurred. Please try again later.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -127,24 +164,56 @@ const SignupPage = () => {
       return;
     }
     
+    // Validate OTP format (should be 6 digits)
+    if (!/^\d{6}$/.test(otp)) {
+      setError("OTP should be 6 digits");
+      return;
+    }
+    
     setIsLoading(true);
     setError(null);
+    setSuccessMessage("Verifying OTP...");
     
     try {
+      // Use API URL from config
+      const apiUrl = createApiUrl(API_ENDPOINTS.VERIFY_OTP);
+      
+      console.log("Sending OTP verification request to:", apiUrl);
+      
       const response = await axios.post(
-        "https://sportalon-backend.onrender.com/api/auth/verify-otp",
+        apiUrl,
         { email: formData.email, otp },
-        { headers: { "Content-Type": "application/json" } }
+        { 
+          headers: { "Content-Type": "application/json" },
+          // Add timeout to prevent hanging requests
+          timeout: 15000 
+        }
       );
       
       if (response.data.success) {
         setOtpVerified(true);
         setSuccessMessage("Email verified successfully");
         setCurrentStep(3);
+      } else {
+        // Handle unexpected success response without success flag
+        setError("Verification failed. Please try again.");
       }
     } catch (err) {
-      console.error(err.response?.data || "Error verifying OTP");
-      setError(err.response?.data?.message || "Invalid OTP, please try again.");
+      console.error("OTP Verification Error:", err);
+      
+      // Handle different types of errors with specific messages
+      if (err.code === "ECONNABORTED") {
+        setError("Request timed out. Please check your internet connection and try again.");
+      } else if (err.response) {
+        // Server responded with an error status
+        setError(err.response.data?.message || `Error (${err.response.status}): Failed to verify OTP, please try again.`);
+      } else if (err.request) {
+        // Request was made but no response received
+        setError("No response from server. Please check your internet connection and try again.");
+      } else {
+        // Something else went wrong
+        setError("An unexpected error occurred. Please try again later.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -163,10 +232,16 @@ const SignupPage = () => {
     setError(null);
 
     try {
+      const apiUrl = createApiUrl(API_ENDPOINTS.REGISTER);
+      console.log("Sending registration request to:", apiUrl);
+      
       const response = await axios.post(
-        "https://sportalon-backend.onrender.com/api/auth/register",
+        apiUrl,
         formData,
-        { headers: { "Content-Type": "application/json" } }
+        { 
+          headers: { "Content-Type": "application/json" },
+          timeout: 15000
+        }
       );
 
       if (response.data.success) {

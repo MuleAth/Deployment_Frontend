@@ -9,6 +9,10 @@ export const API_ENDPOINTS = {
   // Auth endpoints
   LOGIN: "/api/auth/login",
   REGISTER: "/api/auth/register",
+  GENERATE_OTP: "/api/auth/generate-otp",
+  VERIFY_OTP: "/api/auth/verify-otp",
+  CREATE_PROFILE: "/api/auth/create-profile",
+  VERIFY_TOKEN: "/api/auth/verify-token",
   
   // User endpoints
   GET_EVENTS: "/api/user/getevent",
@@ -25,4 +29,9 @@ export const API_ENDPOINTS = {
   FEEDBACK: "/api/feedback",
   NOTIFICATIONS: "/api/notifications",
   RECOMMENDATIONS: "/api/recommendations"
+};
+
+// Create a function to get the full URL for an endpoint
+export const getApiUrl = (endpoint) => {
+  return createApiUrl(endpoint);
 };
