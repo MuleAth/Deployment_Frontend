@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Star, Send, MessageSquare, ChevronDown, ChevronUp, Camera, Award, Trophy, Medal, ArrowLeft, ArrowRight, Maximize, X, Heart, Share2, Download } from "lucide-react";
+import { Star, Send, MessageSquare, ChevronDown, ChevronUp, Camera, Award, Trophy, Medal, ArrowLeft, ArrowRight, Maximize, X, Heart, Share2, Download, ZoomIn } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -29,6 +29,8 @@ const FeedbackForm = () => {
 
   // Photo Gallery States
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const galleryRef = useRef(null);
 
   // Achievement Photos Data - Two photos for slideshow
@@ -47,6 +49,18 @@ const FeedbackForm = () => {
 
   // State for slideshow
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Handle image click to open modal
+  const handleImageClick = (photo) => {
+    setSelectedImage(photo);
+    setIsModalOpen(true);
+  };
+
+  // Handle modal close
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
 
   // No auto-advance - only change slides on click
 
@@ -72,6 +86,25 @@ const FeedbackForm = () => {
       }
     };
   }, []);
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
 
   // Simplified gallery with no additional interactions
 
@@ -167,98 +200,60 @@ const FeedbackForm = () => {
             </p>
           </div>
 
-          {/* Slideshow with Two Photos */}
+          {/* Mobile-Responsive Achievement Gallery */}
           <div
-            className={`max-w-4xl mx-auto transition-all duration-700 delay-200 ${
+            className={`max-w-6xl mx-auto transition-all duration-700 delay-200 ${
               isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"
             }`}
           >
-            <div
-              className="relative overflow-hidden rounded-xl shadow-2xl ring-4 ring-violet-500 ring-opacity-70 cursor-pointer"
-              onClick={() => setCurrentSlide(prev => (prev === achievementPhotos.length - 1 ? 0 : prev + 1))}
-            >
-              {/* Slideshow Container */}
-              <div className="relative aspect-w-16 aspect-h-9">
-                {/* Slides with Animated Transitions */}
-                {achievementPhotos.map((photo, index) => (
-                  <div
-                    key={photo.id}
-                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                      currentSlide === index
-                        ? 'opacity-100 z-10 transform scale-100'
-                        : 'opacity-0 z-0 transform scale-105'
-                    }`}
-                    style={{
-                      animation: currentSlide === index
-                        ? `${index === 0 ? 'slide-in-left' : 'slide-in-right'} 0.8s ease-out forwards`
-                        : 'none'
-                    }}
-                  >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {achievementPhotos.map((photo, index) => (
+                <div
+                  key={photo.id}
+                  className="relative group cursor-pointer overflow-hidden rounded-xl shadow-2xl ring-2 ring-violet-500/30 hover:ring-violet-500/60 transition-all duration-300 transform hover:scale-[1.02]"
+                  onClick={() => handleImageClick(photo)}
+                >
+                  <div className="relative aspect-[4/3] md:aspect-[16/10]">
                     <img
                       src={photo.src}
                       alt={photo.caption}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-
-                    {/* Enhanced Caption with Violet Theme */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-violet-900/90 via-violet-800/70 to-transparent p-8">
-                      <div className="max-w-3xl mx-auto text-center">
-                        <h3 className="text-white font-bold text-3xl mb-2 text-shadow-lg">
-                          {photo.caption}
-                        </h3>
-                        <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-purple-400 mx-auto my-3 rounded-full"></div>
-                        <p className="text-violet-100 text-lg">
-                          {index === 0 ? "Victory through dedication and teamwork" : "Building champions on and off the field"}
-                        </p>
+                    
+                    {/* Mobile tap indicator */}
+                    <div className="absolute top-3 right-3 md:hidden bg-white/90 rounded-full p-2 shadow-lg">
+                      <ZoomIn className="h-4 w-4 text-gray-700" />
+                    </div>
+                    
+                    {/* Desktop hover overlay */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center">
+                      <div className="bg-white/90 rounded-full p-4">
+                        <ZoomIn className="h-8 w-8 text-gray-700" />
                       </div>
                     </div>
+                    
+                    {/* Text overlay at bottom - mobile optimized */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-violet-900/95 via-violet-800/70 to-transparent p-4 md:p-6">
+                      <h3 className="text-white font-bold text-lg md:text-2xl mb-2 leading-tight">
+                        {photo.caption}
+                      </h3>
+                      <div className="w-16 md:w-24 h-1 bg-gradient-to-r from-yellow-400 to-purple-400 mb-2 rounded-full"></div>
+                      <p className="text-violet-100 text-sm md:text-base leading-tight">
+                        {index === 0 ? "Victory through dedication and teamwork" : "Building champions on and off the field"}
+                      </p>
+                    </div>
                   </div>
-                ))}
-
-                {/* Simple indicator dots - no buttons */}
-                <div className="absolute bottom-32 left-0 right-0 flex justify-center space-x-3 z-20">
-                  {achievementPhotos.map((_, index) => (
-                    <div
-                      key={index}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        currentSlide === index
-                          ? 'bg-yellow-400 w-8'
-                          : 'bg-white/50'
-                      }`}
-                    />
-                  ))}
                 </div>
-              </div>
+              ))}
             </div>
           </div>
 
         </div>
 
-        {/* Custom CSS for aspect ratio and text effects */}
+        {/* Custom CSS for text effects */}
         <style jsx>{`
-          .aspect-w-16 {
-            position: relative;
-            padding-bottom: 56.25%;
-          }
-          .aspect-w-16 > * {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-          }
           .text-shadow-lg {
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-          }
-          @keyframes slide-in-left {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-          }
-          @keyframes slide-in-right {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
           }
         `}</style>
       </section>
@@ -496,6 +491,58 @@ const FeedbackForm = () => {
           }
         `}</style>
       </div>
+
+      {/* Image Modal */}
+      {isModalOpen && selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2 md:p-4"
+          onClick={closeModal}
+        >
+          <div 
+            className="relative max-w-5xl max-h-[95vh] w-full bg-white rounded-xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-10 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 md:p-3 transition-colors duration-200"
+            >
+              <X className="h-5 w-5 md:h-6 md:w-6" />
+            </button>
+
+            {/* Image container - mobile optimized */}
+            <div className="relative">
+              <img
+                src={selectedImage.src}
+                alt={selectedImage.caption}
+                className="w-full h-auto max-h-[70vh] md:max-h-[65vh] object-contain"
+              />
+            </div>
+
+            {/* Achievement details - mobile responsive */}
+            <div className="p-4 md:p-6 bg-gradient-to-b from-violet-900 via-violet-800 to-purple-900 text-white">
+              <h2 className="text-xl md:text-3xl font-bold mb-3">{selectedImage.caption}</h2>
+              <div className="w-20 md:w-32 h-1 bg-gradient-to-r from-yellow-400 to-purple-400 mb-4 rounded-full"></div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <div>
+                  <p className="text-violet-200 text-sm md:text-base leading-relaxed">
+                    {selectedImage.id === 1 
+                      ? "Our champions celebrating victory through dedication, teamwork, and unwavering determination in the Sinhgad Olympus 2024."
+                      : "A moment of pride as we celebrate excellence in sports with our esteemed HOD of IT Department, recognizing outstanding achievements."
+                    }
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs md:text-sm text-violet-300 mb-1">Achievement Gallery</p>
+                  <p className="text-sm md:text-lg font-semibold">Sportalon College</p>
+                  <p className="text-xs md:text-sm text-violet-300">Sports Excellence Program</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
