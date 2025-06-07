@@ -22,9 +22,14 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (token) {
-      navigate("/"); // Redirect to homepage if already logged in
+      // If there's a redirect URL, go there, otherwise go to homepage
+      if (redirectUrl) {
+        navigate(redirectUrl);
+      } else {
+        navigate("/");
+      }
     }
-  }, [token, navigate]);
+  }, [token, navigate, redirectUrl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

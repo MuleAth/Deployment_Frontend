@@ -320,15 +320,15 @@ const AchievementSection = () => {
           ))}
         </div>
 
-        {/* Interactive call to action */}
+        {/* Interactive call to action - centered */}
         <div
-          className={`mt-12 md:mt-16 text-center transition-all duration-700 delay-700 ${
+          className={`mt-12 md:mt-16 flex justify-center transition-all duration-700 delay-700 ${
             isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"
           }`}
         >
           <button
             onClick={handleExploreAllAchievements}
-            className="group px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full text-indigo-900 font-bold text-base md:text-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl hover:from-yellow-300 hover:to-yellow-400 cursor-pointer flex items-center justify-center gap-2"
+            className="group px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full text-indigo-900 font-bold text-base md:text-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl hover:from-yellow-300 hover:to-yellow-400 cursor-pointer flex items-center justify-center gap-2 mx-auto"
           >
             Explore All Achievements
             <ArrowRight className="h-5 w-5 md:h-6 md:w-6 transition-transform duration-300 group-hover:translate-x-1" />

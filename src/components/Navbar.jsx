@@ -10,6 +10,7 @@ import {
   Medal,
   ChevronDown,
   Star,
+  Info,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -97,6 +98,7 @@ const Navbar = () => {
                     : "hover:bg-indigo-800 hover:shadow-md hover:scale-105"
                 }`}
               >
+                <Info className="h-4 w-4 mr-1" />
                 <span>About Us</span>
                 {isActive("/about-us") && <Star className="h-3 w-3 ml-1" />}
               </Link>
@@ -197,6 +199,7 @@ const Navbar = () => {
               }`}
               onClick={() => setIsOpen(false)}
             >
+              <Info className="h-5 w-5 mr-2" />
               <span>About Us</span>
               {isActive("/about-us") && <Star className="h-3 w-3 ml-2" />}
             </Link>

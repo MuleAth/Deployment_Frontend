@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Star, Send, MessageSquare, ChevronDown, ChevronUp, Camera, Award, Trophy, Medal, ArrowLeft, ArrowRight, Maximize, X, Heart, Share2, Download, ZoomIn } from "lucide-react";
+import { Star, Send, MessageSquare, ChevronDown, ChevronUp, Camera, Award, Trophy, Medal, ArrowLeft, ArrowRight, Maximize, X, Heart, Share2, Download, ZoomIn, ZoomOut } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -31,6 +31,7 @@ const FeedbackForm = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
   const galleryRef = useRef(null);
 
   // Achievement Photos Data - Two photos for slideshow
@@ -51,15 +52,28 @@ const FeedbackForm = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Handle image click to open modal
-  const handleImageClick = (photo) => {
-    setSelectedImage(photo);
+  const handleImageClick = () => {
+    setSelectedImage(achievementPhotos[currentSlide]);
     setIsModalOpen(true);
+  };
+  
+  // Navigate to next slide
+  const nextSlide = (e) => {
+    e.stopPropagation();
+    setCurrentSlide((prev) => (prev + 1) % achievementPhotos.length);
+  };
+  
+  // Navigate to previous slide
+  const prevSlide = (e) => {
+    e.stopPropagation();
+    setCurrentSlide((prev) => (prev === 0 ? achievementPhotos.length - 1 : prev - 1));
   };
 
   // Handle modal close
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+    setIsZoomed(false);
   };
 
   // No auto-advance - only change slides on click
@@ -200,50 +214,68 @@ const FeedbackForm = () => {
             </p>
           </div>
 
-          {/* Mobile-Responsive Achievement Gallery */}
+          {/* Mobile-Responsive Achievement Gallery - Single Image Slideshow */}
           <div
-            className={`max-w-6xl mx-auto transition-all duration-700 delay-200 ${
+            className={`max-w-4xl mx-auto transition-all duration-700 delay-200 ${
               isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-8"
             }`}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              {achievementPhotos.map((photo, index) => (
-                <div
-                  key={photo.id}
-                  className="relative group cursor-pointer overflow-hidden rounded-xl shadow-2xl ring-2 ring-violet-500/30 hover:ring-violet-500/60 transition-all duration-300 transform hover:scale-[1.02]"
-                  onClick={() => handleImageClick(photo)}
-                >
-                  <div className="relative aspect-[4/3] md:aspect-[16/10]">
-                    <img
-                      src={photo.src}
-                      alt={photo.caption}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    
-                    {/* Mobile tap indicator */}
-                    <div className="absolute top-3 right-3 md:hidden bg-white/90 rounded-full p-2 shadow-lg">
-                      <ZoomIn className="h-4 w-4 text-gray-700" />
-                    </div>
-                    
-                    {/* Desktop hover overlay */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center">
-                      <div className="bg-white/90 rounded-full p-4">
-                        <ZoomIn className="h-8 w-8 text-gray-700" />
-                      </div>
-                    </div>
-                    
-                    {/* Text overlay at bottom - mobile optimized */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-violet-900/95 via-violet-800/70 to-transparent p-4 md:p-6">
-                      <h3 className="text-white font-bold text-lg md:text-2xl mb-2 leading-tight">
-                        {photo.caption}
-                      </h3>
-                      <div className="w-16 md:w-24 h-1 bg-gradient-to-r from-yellow-400 to-purple-400 mb-2 rounded-full"></div>
-                      <p className="text-violet-100 text-sm md:text-base leading-tight">
-                        {index === 0 ? "Victory through dedication and teamwork" : "Building champions on and off the field"}
-                      </p>
-                    </div>
-                  </div>
+            <div className="relative cursor-pointer overflow-hidden rounded-xl shadow-2xl ring-2 ring-violet-500/30 hover:ring-violet-500/60 transition-all duration-300 transform hover:scale-[1.01]"
+                onClick={handleImageClick}>
+              <div className="relative aspect-[16/9]">
+                <img
+                  src={achievementPhotos[currentSlide].src}
+                  alt={achievementPhotos[currentSlide].caption}
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+                
+                {/* Zoom indicator */}
+                <div className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-lg z-10">
+                  <ZoomIn className="h-5 w-5 text-gray-700" />
                 </div>
+                
+                {/* Navigation buttons */}
+                <button 
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-200 z-10"
+                  onClick={prevSlide}
+                >
+                  <ArrowLeft className="h-5 w-5 md:h-6 md:w-6" />
+                </button>
+                
+                <button 
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-200 z-10"
+                  onClick={nextSlide}
+                >
+                  <ArrowRight className="h-5 w-5 md:h-6 md:w-6" />
+                </button>
+                
+                {/* Text overlay at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-violet-900/95 via-violet-800/70 to-transparent p-4 md:p-6">
+                  <h3 className="text-white font-bold text-lg md:text-2xl mb-2 leading-tight">
+                    {achievementPhotos[currentSlide].caption}
+                  </h3>
+                  <div className="w-16 md:w-24 h-1 bg-gradient-to-r from-yellow-400 to-purple-400 mb-2 rounded-full"></div>
+                  <p className="text-violet-100 text-sm md:text-base leading-tight">
+                    {currentSlide === 0 ? "Victory through dedication and teamwork" : "Building champions on and off the field"}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Slide indicators */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {achievementPhotos.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentSlide(index);
+                  }}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentSlide === index ? "bg-yellow-400 w-6" : "bg-white/50 hover:bg-white/70"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
               ))}
             </div>
           </div>
@@ -492,14 +524,14 @@ const FeedbackForm = () => {
         `}</style>
       </div>
 
-      {/* Image Modal */}
+      {/* Image Modal - Simplified with better image display */}
       {isModalOpen && selectedImage && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-2 md:p-4"
           onClick={closeModal}
         >
           <div 
-            className="relative max-w-5xl max-h-[95vh] w-full bg-white rounded-xl overflow-hidden shadow-2xl"
+            className="relative max-w-5xl max-h-[95vh] w-full rounded-xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -509,34 +541,37 @@ const FeedbackForm = () => {
             >
               <X className="h-5 w-5 md:h-6 md:w-6" />
             </button>
+            
+            {/* Zoom button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsZoomed(!isZoomed);
+              }}
+              className="absolute top-4 right-16 z-10 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 md:p-3 transition-colors duration-200"
+            >
+              {isZoomed ? 
+                <ZoomOut className="h-5 w-5 md:h-6 md:w-6" /> : 
+                <ZoomIn className="h-5 w-5 md:h-6 md:w-6" />
+              }
+            </button>
 
-            {/* Image container - mobile optimized */}
-            <div className="relative">
-              <img
-                src={selectedImage.src}
-                alt={selectedImage.caption}
-                className="w-full h-auto max-h-[70vh] md:max-h-[65vh] object-contain"
-              />
-            </div>
-
-            {/* Achievement details - mobile responsive */}
-            <div className="p-4 md:p-6 bg-gradient-to-b from-violet-900 via-violet-800 to-purple-900 text-white">
-              <h2 className="text-xl md:text-3xl font-bold mb-3">{selectedImage.caption}</h2>
-              <div className="w-20 md:w-32 h-1 bg-gradient-to-r from-yellow-400 to-purple-400 mb-4 rounded-full"></div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                <div>
-                  <p className="text-violet-200 text-sm md:text-base leading-relaxed">
-                    {selectedImage.id === 1 
-                      ? "Our champions celebrating victory through dedication, teamwork, and unwavering determination in the Sinhgad Olympus 2024."
-                      : "A moment of pride as we celebrate excellence in sports with our esteemed HOD of IT Department, recognizing outstanding achievements."
-                    }
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs md:text-sm text-violet-300 mb-1">Achievement Gallery</p>
-                  <p className="text-sm md:text-lg font-semibold">Sportalon College</p>
-                  <p className="text-xs md:text-sm text-violet-300">Sports Excellence Program</p>
+            {/* Image container with caption - optimized for full-screen viewing */}
+            <div className="relative flex items-center justify-center h-[90vh] overflow-hidden">
+              <div className={`relative transition-transform duration-300 ease-out ${isZoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'}`}
+                   onClick={(e) => {
+                     e.stopPropagation();
+                     setIsZoomed(!isZoomed);
+                   }}>
+                <img
+                  src={selectedImage.src}
+                  alt={selectedImage.caption}
+                  className="max-w-full max-h-full object-contain"
+                />
+                
+                {/* Caption overlay at bottom - now part of the image container */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 md:p-6 text-center">
+                  <h2 className="text-xl md:text-2xl font-bold text-white">{selectedImage.caption}</h2>
                 </div>
               </div>
             </div>
