@@ -187,26 +187,26 @@ const HeroSection = () => {
       
       {/* Development notification popup */}
       {showNotification && (
-        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-xl overflow-hidden animate-fade-in-down">
-            <div className="relative p-5">
+        <div className="fixed top-4 sm:top-6 inset-x-0 mx-auto z-50 w-[85%] sm:w-full max-w-md">
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-xl overflow-hidden mx-auto">
+            <div className="relative p-2 sm:p-5">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <Info className="h-6 w-6 text-indigo-200" />
+                  <Info className="h-4 w-4 sm:h-6 sm:w-6 text-indigo-200" />
                 </div>
-                <div className="ml-3 w-0 flex-1 pt-0.5">
-                  <p className="text-sm font-medium text-white">Under Development</p>
-                  <p className="mt-1 text-sm text-indigo-100">
-                    Some features are still under development. We're working hard to bring you more functionality soon. Stay tuned!
+                <div className="ml-2 sm:ml-3 w-0 flex-1 pt-0.5">
+                  <p className="text-xs sm:text-sm font-medium text-white">Under Development</p>
+                  <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-indigo-100">
+                    Some features are still under development. Stay tuned!
                   </p>
                 </div>
-                <div className="ml-4 flex-shrink-0 flex">
+                <div className="ml-1 sm:ml-4 flex-shrink-0 flex">
                   <button
-                    className="bg-indigo-800/30 rounded-md inline-flex text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white p-1.5 transition-all duration-200"
+                    className="bg-indigo-800/30 rounded-md inline-flex text-indigo-200 hover:text-white focus:outline-none p-1 sm:p-1.5 transition-all duration-200"
                     onClick={() => setShowNotification(false)}
                   >
                     <span className="sr-only">Close</span>
-                    <X className="h-5 w-5" />
+                    <X className="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
                 </div>
               </div>
@@ -267,18 +267,22 @@ const HeroSection = () => {
             <div className={`mt-10 flex flex-row justify-center gap-3 sm:gap-4 transition-all duration-700 delay-900 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
-              <a href="/events" rel="noopener noreferrer" className="flex-1 sm:flex-none">
-                <button className="w-full sm:w-auto group px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-500 hover:to-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg flex items-center justify-center">
-                  Explore Events
-                  <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+              <div className="w-[45%] sm:w-auto">
+                <a href="/events" rel="noopener noreferrer" className="block w-full">
+                  <button className="w-full sm:w-auto group px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-500 hover:to-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg flex items-center justify-center">
+                    Explore Events
+                    <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </a>
+              </div>
+              <div className="w-[45%] sm:w-auto">
+                <button
+                  onClick={handleCreateAccountClick}
+                  className="w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 border border-white/20"
+                >
+                  Sign In
                 </button>
-              </a>
-              <button
-                onClick={handleCreateAccountClick}
-                className="flex-1 sm:flex-none w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 border border-white/20"
-              >
-                Sign In
-              </button>
+              </div>
             </div>
             
             {/* Feedback Button - Centered below main buttons */}
