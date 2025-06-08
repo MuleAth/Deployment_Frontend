@@ -264,9 +264,9 @@ const LoginPage = () => {
                   </div>
 
                   <div className="text-sm">
-                    <a href="#" className="font-medium text-violet-600 hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300">
+                    <span className="font-medium text-gray-400 cursor-not-allowed" title="This feature is not available yet">
                       Forgot password?
-                    </a>
+                    </span>
                   </div>
                 </div>
 
