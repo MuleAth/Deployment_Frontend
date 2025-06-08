@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../redux-store/authSlice";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const LoginPage = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showRegisterPopup, setShowRegisterPopup] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -30,6 +32,17 @@ const LoginPage = () => {
       }
     }
   }, [token, navigate, redirectUrl]);
+  
+  // Auto-hide the register popup after 15 seconds
+  useEffect(() => {
+    if (showRegisterPopup) {
+      const timer = setTimeout(() => {
+        setShowRegisterPopup(false);
+      }, 15000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [showRegisterPopup]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -89,6 +102,58 @@ const LoginPage = () => {
 
   return (
     <>
+      {/* New User Register Popup */}
+      {showRegisterPopup && (
+        <div className="fixed bottom-4 sm:bottom-6 inset-x-0 sm:right-6 sm:left-auto z-50 w-[90%] sm:w-auto max-w-xs sm:max-w-sm mx-auto sm:mx-0">
+          <div className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl shadow-xl overflow-hidden animate-fade-in">
+            <div className="relative p-3 sm:p-4">
+              <div className="flex items-start">
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-white">New to Sinhgad Sports?</p>
+                  <p className="mt-1 text-xs text-violet-100">
+                    Create an account to participate in events and track your sports activities.
+                  </p>
+                  <div className="mt-3 flex space-x-2">
+                    <Link 
+                      to="/register" 
+                      className="inline-flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-white text-violet-700 hover:bg-violet-50 transition-colors"
+                    >
+                      Register Now
+                      <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                    </Link>
+                    <button
+                      onClick={() => setShowRegisterPopup(false)}
+                      className="px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-violet-500/30 hover:bg-violet-500/50 transition-colors"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+                <button
+                  className="ml-2 text-violet-200 hover:text-white"
+                  onClick={() => setShowRegisterPopup(false)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              {/* Progress bar for auto-close */}
+              <div className="absolute bottom-0 left-0 h-1 bg-white/20 w-full">
+                <div 
+                  className="h-full bg-white/50" 
+                  style={{ 
+                    width: '100%', 
+                    animation: 'shrink 15s linear forwards' 
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <section className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url("/bg.png")' }}>
         <div className="max-w-md w-full space-y-8">
           {/* Logo/Brand Area */}
